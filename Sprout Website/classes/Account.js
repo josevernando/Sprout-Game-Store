@@ -16,7 +16,7 @@ class Account
         usernInput = document.getElementById('username').value;
         pwordInput = document.getElementById('InputPassword1').value;
         this.veririfiedLogin(usernInput, pwordInput);
-        
+        window.alert(usernInput, " ", pwordInput);
     };
 
     register(){};
