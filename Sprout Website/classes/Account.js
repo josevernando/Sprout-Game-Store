@@ -1,5 +1,6 @@
 class Account 
 {
+    constructor() {}
     constructor(username, password, account_id, email, fullName, isDeveloper)
     {
         this.username = username;
@@ -10,8 +11,18 @@ class Account
         this.isDeveloper = isDeveloper;
     }
 
-    login(){};
+    login()
+    {
+        usernInput = document.getElementById('username').value;
+        pwordInput = document.getElementById('InputPassword1').value;
+        this.veririfiedLogin(usernInput, pwordInput);
+        
+    };
+
     register(){};
     updateProfile(){};
-    veririfiedLogin(){};
+    veririfiedLogin(usernInput, pwordInput)
+    {
+
+    };
 }
