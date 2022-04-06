@@ -10,5 +10,8 @@ class Account
         this.isDeveloper = isDeveloper;
     }
 
-    
+    login(){};
+    register(){};
+    updateProfile(){};
+    veririfiedLogin(){};
 }
