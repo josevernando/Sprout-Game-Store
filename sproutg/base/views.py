@@ -25,8 +25,8 @@ def loginPage(request):
     context = {}
     return render(request, 'base/login_register.html', context)
 
-def home(request):
+def store(request):
     games = Game.objects.all()
     context = {'games': games}
 
-    return render(request=request, template_name='base/home.html', context=context)
+    return render(request=request, template_name='base/store.html', context=context)
