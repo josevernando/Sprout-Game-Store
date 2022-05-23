@@ -1,3 +1,4 @@
+from itertools import product
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -31,6 +32,7 @@ def store(request):
 
     return render(request=request, template_name='base/store.html', context=context)
 
-def storeProduct(request):
-    context = {}
+def storeProduct(request, pk):
+    game = Game.objects.get(id=pk)
+    context = {'game': game}
     return render(request=request, template_name='base/store-product.html', context=context)
