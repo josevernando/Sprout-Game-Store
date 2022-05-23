@@ -17,10 +17,12 @@
                         </a>
                     </li>
                     <li>
-                        <a href="elements.html">
+                        <a href="{% url 'store' %}">
                             Store
                         </a>
                     </li>
+                    
+                    {% if request.user.is_authenticated %}
                     <li>
                         <a href="elements.html">
                             My Games
@@ -32,10 +34,17 @@
                         </a>
                     </li>
                     <li>
-                        <a href="blog-list.html">
+                        <a href="{% url 'logout' %}">
+                            Logout
+                        </a>
+                    </li>
+                    {% else %}
+                    <li>
+                        <a href="{% url 'login' %}">
                             Login
                         </a>
                     </li>
+                    {% endif %}
                 </ul>
                 <ul class="nk-nav nk-nav-right nk-nav-icons">
                                 
