@@ -30,3 +30,7 @@ def store(request):
     context = {'games': games}
 
     return render(request=request, template_name='base/store.html', context=context)
+
+def storeProduct(request):
+    context = {}
+    return render(request=request, template_name='base/store-product.html', context=context)
