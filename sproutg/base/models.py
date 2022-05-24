@@ -22,7 +22,7 @@ class Game(models.Model):
     
     def __str__(self):
         return self.name
-
+    
 class Review(models.Model):
     name = models.CharField(max_length=200)
     text = models.TextField()
@@ -47,8 +47,11 @@ class Transaksi(models.Model):
         return self.name
 
 class Customer(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=200)
-    # myGames = models.TextField()
-    # wishList=
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    cart = models.ManyToManyField(Game, related_name='cart', blank=True)
+    myGames = models.ManyToManyField(Game, related_name='myGames', blank=True)
+    wishList = models.ManyToManyField(Game, related_name='wishList', blank=True)
     # transaksi =
+    
+    def __str__(self):
+        return self.user.username + "'s customer model"

@@ -1,10 +1,11 @@
+from dataclasses import field
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.db.models import Q
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
-from .models import Review, Game
+from .models import Review, Game, Customer
 
 # Create your views here.
 def loginUser(request):
@@ -58,3 +59,10 @@ def storeProduct(request, pk):
     game = Game.objects.get(id=pk)
     context = {'game': game}
     return render(request=request, template_name='base/store-product.html', context=context)
+
+def storeCart(request):
+    userCustomer = Customer.objects.get(user=request.user)
+    cart = userCustomer.cart.all()
+    context = {'cart': cart}
+    
+    return render(request=request, template_name='base/cart.html', context=context)
