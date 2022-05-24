@@ -9,4 +9,6 @@ urlpatterns = [
     path('register/', views.registerUser, name="register"),
     path('wishlist/', views.storeWishlist, name="wishlist"),
     path('cart/', views.storeCart, name="cart"),
+    path('add/<str:gameList>/<str:gameid>', views.addToList, name="addToList"),
+    
 ]

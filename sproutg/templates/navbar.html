@@ -30,12 +30,12 @@
                     </li>
                     <li>
                         <a href="{% url 'wishlist' %}">
-                            Wishlist
+                            Wishlist({{request.user.customer.wishList.count}})
                         </a>
                     </li>
                     <li>
                         <a href="{% url 'cart' %}">
-                            Cart
+                            Cart({{request.user.customer.cart.count}})
                         </a>
                     </li>
                     <li>

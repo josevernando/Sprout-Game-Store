@@ -1,5 +1,5 @@
-from dataclasses import field
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.db.models import Q
@@ -67,9 +67,20 @@ def storeCart(request):
     
     return render(request=request, template_name='base/cart.html', context=context)
 
+@login_required(login_url='/login')
+def addToList(request, gameList, gameid):
+    customer = Customer.objects.get(user=request.user)
+    game = Game.objects.get(id=gameid)
+    if gameList == 'cart':
+        customer.cart.add(game)
+    elif gameList == 'wishlist':
+        customer.wishList.add(game)
+    
+    return redirect(gameList);
+
 def storeWishlist(request):
-    userCustomer = Customer.objects.get(user=request.user)
-    wishlist = userCustomer.wishList.all()
+    customer = Customer.objects.get(user=request.user)
+    wishlist = customer.wishList.all()
     context = {'wishlist': wishlist}
     
     return render(request=request, template_name='base/wishlist.html', context=context)
