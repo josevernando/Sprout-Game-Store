@@ -1,4 +1,8 @@
 /* PLACE YOU CUSTOM STYLES IN THIS FILE */
-.smol {
-    width: 20px !important; 
+.kuzza {
+    width: 50px;
+    height: 50px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50% ;
 }

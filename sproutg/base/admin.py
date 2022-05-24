@@ -9,4 +9,6 @@ admin.site.register(Review)
 admin.site.register(Customer)
 
 # fariduri dongkrakKodok29
+# simbo cikarang229
+# putrigaming diskon75
 # Register your models here.

@@ -38,10 +38,22 @@
                             Cart({{request.user.customer.cart.count}})
                         </a>
                     </li>
-                    <li>
-                        <a href="{% url 'logout' %}">
-                            Logout
+                    <li class="nk-drop-item">
+                        <a href="elements.html">
+                            <img src="{% static 'assets/images/profile-1.png' %}" alt="Profile" class="kuzza" >
                         </a>
+                        <ul class="dropdown" style="margin-top: 39.833px; display: none; opacity: 0; margin-left: -144.917px;">
+                            <li>
+                                <a href="store.html">
+                                Profile
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'logout' %}">
+                                    Logout
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     {% else %}
                     <li>
