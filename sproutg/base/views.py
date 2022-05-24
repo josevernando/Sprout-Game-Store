@@ -66,3 +66,10 @@ def storeCart(request):
     context = {'cart': cart}
     
     return render(request=request, template_name='base/cart.html', context=context)
+
+def storeWishlist(request):
+    userCustomer = Customer.objects.get(user=request.user)
+    wishlist = userCustomer.wishList.all()
+    context = {'wishlist': wishlist}
+    
+    return render(request=request, template_name='base/wishlist.html', context=context)
