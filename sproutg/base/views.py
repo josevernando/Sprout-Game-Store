@@ -87,8 +87,8 @@ def removeFromList(request, gameList, gameid):
         customer.cart.remove(game)
     elif gameList == 'wishlist':
         customer.wishList.remove(game)
-    
-    return redirect(gameList);
+
+    return redirect(gameList)
 
 def storeWishlist(request):
     customer = Customer.objects.get(user=request.user)

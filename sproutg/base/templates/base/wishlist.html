@@ -47,6 +47,21 @@
                             <td class="nk-product-cart-remove"><a href="{% url 'removeFromList' 'wishlist' game.id %}"><span class="ion-android-close"></span></a></td>
                         </tr>
                         {% endfor %}
+                        {% if wishlist.count == 0 %}
+                        <tr>
+                            <td class="nk-product-cart-thumb align-center">
+                                <div class="nk-gap-5"></div>
+                                <h2 class="nk-post-title h4">
+                                    It's lonely here, let's add some games from the Store!
+                                </h2>
+                                <div class="nk-gap-3"></div>
+                                <a href="{% url 'store' %}" class="nk-btn nk-btn-sm nk-btn-rounded nk-btn-color-white nk-btn-hover-color-main-1 center">
+                                    Store
+                                </a>
+                                <div class="nk-gap-5"></div>
+                            </td>
+                        </tr>
+                        {% endif %}
                     </tbody>
                 </table>
                 <!-- END: Products in Cart -->
@@ -54,31 +69,6 @@
             <div class="nk-gap-1"></div>
             <div class="clearfix"></div>
             <div class="nk-gap-2"></div>
-            <div class="row vertical-gap">
-                <div class="col-md-6">
-                    
-                </div>
-                <div class="col-md-6">
-                    <!-- START: Cart Totals -->
-                    <h3 class="nk-title h4">Cart Totals</h3>
-                    <table class="nk-table nk-table-sm">
-                        <tbody>
-                            <tr class="nk-store-cart-totals-total">
-                                <td>
-                                    Total
-                                </td>
-                                <td>
-                                    € 52.00
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <!-- END: Cart Totals -->
-                </div>
-            </div>
-            <div class="nk-gap-2"></div>
-            <a class="nk-btn nk-btn-rounded nk-btn-color-main-1 float-right" href="store-checkout.html">Proceed to Checkout</a>
-            <div class="clearfix"></div>
         </div>
     </div>
     <div class="nk-gap-2"></div>
