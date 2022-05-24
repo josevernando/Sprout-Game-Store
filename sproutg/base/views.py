@@ -8,6 +8,11 @@ from django.shortcuts import render, redirect
 from .models import Review, Game, Customer
 
 # Create your views here.
+def breadCrumbs(request):
+    crumbs = (request.path).split('/')[1:-1]
+    print(crumbs)
+    return crumbs
+
 def loginUser(request):
     
     if request.method == 'POST':
@@ -50,20 +55,23 @@ def registerUser(request):
     return render(request, 'base/register_page.html', context)
 
 def store(request):
+    crumbs = breadCrumbs(request)
     games = Game.objects.all()
-    context = {'games': games}
+    context = {'games': games, 'crumbs': crumbs}
 
     return render(request=request, template_name='base/store.html', context=context)
 
 def storeProduct(request, pk):
+    crumbs = breadCrumbs(request)
     game = Game.objects.get(id=pk)
-    context = {'game': game}
+    context = {'game': game, 'crumbs': crumbs}
     return render(request=request, template_name='base/store-product.html', context=context)
 
 def storeCart(request):
+    crumbs = breadCrumbs(request)
     userCustomer = Customer.objects.get(user=request.user)
     cart = userCustomer.cart.all()
-    context = {'cart': cart}
+    context = {'cart': cart, 'crumbs': crumbs}
     
     return render(request=request, template_name='base/cart.html', context=context)
 
@@ -91,8 +99,9 @@ def removeFromList(request, gameList, gameid):
     return redirect(gameList)
 
 def storeWishlist(request):
+    crumbs = breadCrumbs(request)
     customer = Customer.objects.get(user=request.user)
     wishlist = customer.wishList.all()
-    context = {'wishlist': wishlist}
+    context = {'wishlist': wishlist, 'crumbs': crumbs}
     
     return render(request=request, template_name='base/wishlist.html', context=context)
