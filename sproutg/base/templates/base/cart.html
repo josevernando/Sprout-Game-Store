@@ -54,9 +54,24 @@
                                 <div class="nk-gap-1"></div>
                                 <strong>€ 32.00</strong>
                             </td>
-                            <td class="nk-product-cart-remove"><a href="#"><span class="ion-android-close"></span></a></td>
+                            <td class="nk-product-cart-remove"><a href="{% url 'removeFromList' 'cart' game.id %}"><span class="ion-android-close"></span></a></td>
                         </tr>
                         {% endfor %}
+                        {% if  cart.count == 0 %}
+                        <tr>
+                            <td class="nk-product-cart-thumb align-center">
+                                <div class="nk-gap-5"></div>
+                                <h2 class="nk-post-title h4">
+                                    It's lonely here, let's add some games from the Store!
+                                </h2>
+                                <div class="nk-gap-3"></div>
+                                <a href="{% url 'store' %}" class="nk-btn nk-btn-sm nk-btn-rounded nk-btn-color-white nk-btn-hover-color-main-1 center">
+                                    Store
+                                </a>
+                                <div class="nk-gap-5"></div>
+                            </td>
+                        </tr>
+                        {% endif %}
                     </tbody>
                 </table>
                 <!-- END: Products in Cart -->

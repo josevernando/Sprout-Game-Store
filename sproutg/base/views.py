@@ -69,12 +69,24 @@ def storeCart(request):
 
 @login_required(login_url='/login')
 def addToList(request, gameList, gameid):
+    
     customer = Customer.objects.get(user=request.user)
     game = Game.objects.get(id=gameid)
     if gameList == 'cart':
         customer.cart.add(game)
     elif gameList == 'wishlist':
         customer.wishList.add(game)
+    
+    return redirect(gameList);
+
+@login_required(login_url='/login')
+def removeFromList(request, gameList, gameid):
+    customer = Customer.objects.get(user=request.user)
+    game = Game.objects.get(id=gameid)
+    if gameList == 'cart':
+        customer.cart.remove(game)
+    elif gameList == 'wishlist':
+        customer.wishList.remove(game)
     
     return redirect(gameList);
 

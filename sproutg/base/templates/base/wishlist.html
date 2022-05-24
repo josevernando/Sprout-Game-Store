@@ -42,9 +42,9 @@
                                 <div class="nk-gap-1"></div>
                                 <strong>Rp. {{game.price}}</strong>
                                 <div class="nk-gap-2"></div>
-                                <a href="#" class="nk-btn nk-btn-sm nk-btn-rounded nk-btn-color-white">Add to Cart</a>
+                                <a href="{% url 'addToList' 'cart' game.id %}" class="nk-btn nk-btn-sm nk-btn-rounded nk-btn-color-white">Add to Cart</a>
                             </td>
-                            <td class="nk-product-cart-remove"><a href="#"><span class="ion-android-close"></span></a></td>
+                            <td class="nk-product-cart-remove"><a href="{% url 'removeFromList' 'wishlist' game.id %}"><span class="ion-android-close"></span></a></td>
                         </tr>
                         {% endfor %}
                     </tbody>
