@@ -11,5 +11,6 @@ urlpatterns = [
     path('cart/', views.storeCart, name="cart"),
     path('add/<str:gameList>/<str:gameid>', views.addToList, name="addToList"),
     path('remove/<str:gameList>/<str:gameid>', views.removeFromList, name="removeFromList"),
+    path('search', views.storeSearch, name="search"),
     
 ]

@@ -29,23 +29,25 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{% url 'wishlist' %}">
-                            Wishlist({{request.user.customer.wishList.count}})
-                        </a>
-                    </li>
-                    <li>
                         <a href="{% url 'cart' %}">
                             Cart({{request.user.customer.cart.count}})
                         </a>
                     </li>
                     <li class="nk-drop-item">
                         <a href="elements.html">
-                            <img src="{% static 'assets/images/profile-1.png' %}" alt="Profile" class="kuzza" >
+                            <img src="{% static 'assets/images/profile-1.png' %}" alt="Profile" class="kuzza">
+                            
+                            {{request.user.username}}
                         </a>
-                        <ul class="dropdown" style="margin-top: 39.833px; display: none; opacity: 0; margin-left: -144.917px;">
+                        <ul class="dropdown">
                             <li>
                                 <a href="store.html">
                                 Profile
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'wishlist' %}">
+                                    Wishlist({{request.user.customer.wishList.count}})
                                 </a>
                             </li>
                             <li>

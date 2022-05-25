@@ -55,25 +55,38 @@ def registerUser(request):
     return render(request, 'base/register_page.html', context)
 
 def store(request):
+    page = 'home'
     crumbs = breadCrumbs(request)
-    games = Game.objects.all()
-    context = {'games': games, 'crumbs': crumbs}
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
+    games = Game.objects.filter(name__icontains=q)
+    context = {'games': games, 'crumbs': crumbs, 'page': page}
 
     return render(request=request, template_name='base/store.html', context=context)
 
 def storeProduct(request, pk):
+    page = 'product'
     crumbs = breadCrumbs(request)
     game = Game.objects.get(id=pk)
-    context = {'game': game, 'crumbs': crumbs}
-    return render(request=request, template_name='base/store-product.html', context=context)
+    
+    context = {'game': game, 'crumbs': crumbs, 'page': page}
+    return render(request=request, template_name='base/store-product.html', context=context,)
 
 def storeCart(request):
+    page = 'cart'
     crumbs = breadCrumbs(request)
     userCustomer = Customer.objects.get(user=request.user)
     cart = userCustomer.cart.all()
-    context = {'cart': cart, 'crumbs': crumbs}
+    context = {'cart': cart, 'crumbs': crumbs, 'page': page}
     
     return render(request=request, template_name='base/cart.html', context=context)
+
+def storeSearch(request):
+    page = 'Search'
+    crumbs = breadCrumbs(request)
+    games = Game.objects.all()
+    context = {'games': games, 'crumbs': crumbs, 'page': page}
+
+    return render(request=request, template_name='base/store-search.html', context=context)
 
 @login_required(login_url='/login')
 def addToList(request, gameList, gameid):
@@ -99,9 +112,10 @@ def removeFromList(request, gameList, gameid):
     return redirect(gameList)
 
 def storeWishlist(request):
+    page = 'wishlist'
     crumbs = breadCrumbs(request)
     customer = Customer.objects.get(user=request.user)
     wishlist = customer.wishList.all()
-    context = {'wishlist': wishlist, 'crumbs': crumbs}
+    context = {'wishlist': wishlist, 'crumbs': crumbs, 'page': page}
     
     return render(request=request, template_name='base/wishlist.html', context=context)
