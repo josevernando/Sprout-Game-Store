@@ -13,6 +13,6 @@ urlpatterns = [
     path('remove/<str:gameList>/<str:gameid>', views.removeFromList, name="removeFromList"),
     path('search', views.storeSearch, name="search"),
     path('profile/<str:userid>', views.userProfile, name="profile"),
-    path('profile/edit/<str:userid>', views.userProfile, name="profile-edit"),
+    path('profile/edit/<str:userid>', views.userProfileEdit, name="profile-edit"),
 
 ]

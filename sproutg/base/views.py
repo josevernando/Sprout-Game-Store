@@ -1,14 +1,12 @@
-import re
-from telnetlib import GA
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.db.models import Q
-from django.contrib.auth.forms import UserCreationForm
+
 from django.shortcuts import render, redirect
 from .models import Review, Game, Customer, Profile
-from .forms import SignUpForm
+from .forms import SignUpForm, ProfileForm
 
 # Create your views here.
 def breadCrumbs(request):
@@ -49,7 +47,7 @@ def registerUser(request):
             user = form.save()
             customer = Customer.objects.create(user=user)
             login(request, user)
-            return redirect('store')
+            return redirect('profile-edit', request.user.id)
         else:
             messages.error(request, 'An error has occured during registration')
   
@@ -134,12 +132,19 @@ def userProfile(request, userid):
     return render(request=request, template_name='base/profile.html', context=context)
 
 def userProfileEdit(request, userid):
-    page = 'profile'
+    page = 'edit profile'
     crumbs = breadCrumbs(request)
     user = User.objects.get(id=userid)
-    customer = Customer.objects.get(user=user)
-    games = customer.myGames.all()[:4]
-    profile = Profile.objects.get(user=user)
+    profile = Profile.objects.get_or_create(user=user)
+    form = ProfileForm()
     
-    context = {'profile': profile, 'games': games, 'crumbs': crumbs, 'page': page}
+    if request.method == 'POST':
+        form = ProfileForm(request.POST)
+        if form.is_valid:
+            profile = form.save()
+            return redirect('profile', request.user.id)
+        else:
+            messages.error(request, 'An error has occured during registration')
+    
+    context = {'profile': profile,'form': form, 'crumbs': crumbs, 'page': page}
     return render(request=request, template_name='base/profile-edit.html', context=context)
