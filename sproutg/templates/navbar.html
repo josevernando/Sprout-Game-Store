@@ -32,9 +32,9 @@
                         <a href="{% url 'cart' %}">
                             Cart({{request.user.customer.cart.count}})
                         </a>
-                    </li>
+                    </li>`
                     <li class="nk-drop-item">
-                        <a href="elements.html">
+                        <a href="{% url 'profile' request.user.id%}">
                             <img src="{% static 'assets/images/profile-1.png' %}" alt="Profile" class="kuzza">
                             
                             {{request.user.username}}

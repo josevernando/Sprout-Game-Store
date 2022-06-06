@@ -1,3 +1,4 @@
+import re
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -110,6 +111,7 @@ def removeFromList(request, gameList, gameid):
 
     return redirect(gameList)
 
+@login_required(login_url='/login')
 def storeWishlist(request):
     page = 'wishlist'
     crumbs = breadCrumbs(request)
@@ -118,3 +120,13 @@ def storeWishlist(request):
     context = {'wishlist': wishlist, 'crumbs': crumbs, 'page': page}
     
     return render(request=request, template_name='base/wishlist.html', context=context)
+
+@login_required(login_url='/login')
+def userProfile(request, userid):
+    page = 'profile'
+    crumbs = breadCrumbs(request)
+    user = User.objects.get(id=userid)
+    profile = Profile.objects.get(user=user)
+    
+    context = {'profile': profile, 'crumbs': crumbs, 'page': page}
+    return render(request=request, template_name='base/profile.html', context=context)

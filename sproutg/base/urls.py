@@ -12,5 +12,5 @@ urlpatterns = [
     path('add/<str:gameList>/<str:gameid>', views.addToList, name="addToList"),
     path('remove/<str:gameList>/<str:gameid>', views.removeFromList, name="removeFromList"),
     path('search', views.storeSearch, name="search"),
-    
+    path('profile/<str:userid>', views.userProfile, name="profile"),
 ]
