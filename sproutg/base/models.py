@@ -1,16 +1,7 @@
-from pickle import FALSE
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
 
 # Create your models here.
-
-class User(AbstractUser):
-    email = models.EmailField(unique=True, null=True)
-    REQUIRED_FIELDS = []
-    
-    def __str__(self):
-        return self.username
-    
     
 class Profile(models.Model):
     full_name = models.CharField(max_length=200)
