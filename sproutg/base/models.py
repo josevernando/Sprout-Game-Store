@@ -4,9 +4,9 @@ from django.contrib.auth.models import User
 # Create your models here.
     
 class Profile(models.Model):
-    full_name = models.CharField(max_length=200)
-    profile_pic = models.ImageField(null=True)
-    description = models.TextField(null=True)
+    full_name = models.CharField(max_length=200, blank=True)
+    profile_pic = models.ImageField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True)
     birth_date = models.DateField(null=True)
     
