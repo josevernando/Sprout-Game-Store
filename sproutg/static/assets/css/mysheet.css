@@ -1,8 +1,6 @@
 /* PLACE YOU CUSTOM STYLES IN THIS FILE */
 .kuzza-2 {
-    width: 100px;
-    height: 100px;
-    margin-right: 8px;
+    height: 80%;
     position: relative;
     overflow: hidden;
     border-radius: 50% ;
