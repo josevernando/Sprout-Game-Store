@@ -132,3 +132,14 @@ def userProfile(request, userid):
     
     context = {'profile': profile, 'games': games, 'crumbs': crumbs, 'page': page}
     return render(request=request, template_name='base/profile.html', context=context)
+
+def userProfileEdit(request, userid):
+    page = 'profile'
+    crumbs = breadCrumbs(request)
+    user = User.objects.get(id=userid)
+    customer = Customer.objects.get(user=user)
+    games = customer.myGames.all()[:4]
+    profile = Profile.objects.get(user=user)
+    
+    context = {'profile': profile, 'games': games, 'crumbs': crumbs, 'page': page}
+    return render(request=request, template_name='base/profile-edit.html', context=context)
