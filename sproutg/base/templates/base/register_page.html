@@ -21,12 +21,11 @@
                     {% csrf_token %}
                     <div class="row vertical-gap pr-60 pl-60">
                         <div class="col-md-12">
-
+                            
+                            {% for field in form %}
                             <div class="nk-gap"></div>
-                            <input type="text" name="username" placeholder="Username" class=" form-control" autocomplete="off">
-
-                            <div class="nk-gap"></div>
-                            <input type="password" name="password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" class="required form-control" autocomplete="off">
+                            {{field}}
+                            {% endfor %}
 
                         </div>
                         <div class="col-md-12">

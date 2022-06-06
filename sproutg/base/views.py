@@ -6,6 +6,7 @@ from django.db.models import Q
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 from .models import Review, Game, Customer
+from .forms import SignUpForm
 
 # Create your views here.
 def breadCrumbs(request):
@@ -37,16 +38,13 @@ def logoutUser(request):
     return redirect('store')
 
 def registerUser(request):
-    form = UserCreationForm()
+    form = SignUpForm()
     context = {'form': form}
     
     if (request.method == 'POST'):
-        print(request.POST)
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.username = user.username.lower()
-            user.save()
+        form = SignUpForm(request.POST)
+        if form.is_valid:
+            user = form.save()
             login(request, user)
             return redirect('store')
         else:
