@@ -135,13 +135,16 @@ def userProfileEdit(request, userid):
     page = 'edit profile'
     crumbs = breadCrumbs(request)
     user = User.objects.get(id=userid)
-    profile = Profile.objects.get_or_create(user=user)
-    form = ProfileForm()
+    profile, created = Profile.objects.get_or_create(user=user)
     
+    form = ProfileForm() if created else ProfileForm(instance=profile)
     if request.method == 'POST':
-        form = ProfileForm(request.POST)
         if form.is_valid:
-            profile = form.save()
+            profile.full_name = request.POST.get('full_name')
+            profile.birth_date = request.POST.get('birth_date')
+            profile.description = request.POST.get('description')
+            profile.save()
+            
             return redirect('profile', request.user.id)
         else:
             messages.error(request, 'An error has occured during registration')
