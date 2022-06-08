@@ -1,3 +1,4 @@
+from multiprocessing import context
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -49,8 +50,9 @@ def registerUser(request):
             return redirect('profile-edit', request.user.id)
         else:
             messages.error(request, 'An error has occured during registration')
-  
-    return render(request, 'base/register_page.html')
+    
+    context = {'form': form}
+    return render(request, 'base/register_page.html', context=context)
 
 def store(request):
     page = 'home'

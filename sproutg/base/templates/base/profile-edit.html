@@ -24,14 +24,17 @@
 					<div class="col-lg-8">
 						{% for field in form.getAllExceptPic %}
 						<div>
-							{{field}}
+              <label for="{{field.attrs.id}}">{{field.label}}:</label>
+							<br>
+              {{field}}
 						</div>
 						{% endfor %}
+            <div class="nk-gap-2"></div>
+            <input class="nk-btn nk-btn-rounded nk-btn-color-white nk-btn" type="submit" value="Save Profile" >
+            <a href="{% url 'profile' request.user.id %}" class="nk-btn nk-btn-rounded nk-btn-color-main-1">Cancel</a>
           </div>
+          
         </div>
-				<div class="row vertical-gap nk-box-1 bg-dark-2 d-flex">
-					<input class="nk-btn nk-btn-rounded nk-btn-color-white nk-btn-block" type="submit" value="Save Profile" >
-				</div>
       </form>
   <div class="nk-gap-2"></div>
   <!-- START: Footer -->
