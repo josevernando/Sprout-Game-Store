@@ -52,12 +52,13 @@ class SignUpForm(UserCreationForm):
 class ProfileForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        
         self.fields['profile_pic'].widget.attrs.update({
                 'type': 'file',
                 'name': 'profile_pic', 
                 'accept': 'image/*',
-                'id': 'profile_pic_upload',
-                'class': 'form-control'
+                'id': 'profile_pic',
+                'class': 'note-image-input note-form-control note-input'
             }
         )
         self.fields['full_name'].widget.attrs.update({
@@ -91,4 +92,5 @@ class ProfileForm(ModelForm):
         fields = ['profile_pic', 'full_name', 'birth_date', 'description']
         
     def getAllExceptPic(self):
+        print(self.fields['profile_pic'])
         return [self['full_name'],self['birth_date'],self['description']]

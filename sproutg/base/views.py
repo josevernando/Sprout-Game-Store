@@ -143,13 +143,11 @@ def userProfileEdit(request, userid):
     user = User.objects.get(id=userid)
     profile, created = Profile.objects.get_or_create(user=user)
     
-    form = ProfileForm() if created else ProfileForm(instance=profile)
+    form = ProfileForm(instance=profile)
     if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid:
-            profile.full_name = request.POST.get('full_name')
-            profile.birth_date = request.POST.get('birth_date')
-            profile.description = request.POST.get('description')
-            profile.save()
+            profile = form.save()
             
             return redirect('profile', request.user.id)
         else:

@@ -1,4 +1,10 @@
-/* PLACE YOU CUSTOM STYLES IN THIS FILE */
+.kuzza-3 {
+    width: 90%;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50% ;
+}
+
 .kuzza-2 {
     height: 80%;
     position: relative;
@@ -14,4 +20,3 @@
     overflow: hidden;
     border-radius: 50% ;
 }
-
