@@ -11,7 +11,7 @@
         <div class="nk-box-2 bg-dark-2">
           <div class="row">
             <div class="col-lg-3 d-flex justify-content-center align-items-center">
-							<img src="{% static 'assets/images/profile-1.png' %}" alt="Profile" class="kuzza-2">
+							<img src="{{ profile.profile_pic.url }}" alt="Profile" class="kuzza-2">
             </div>
             <div class="col-lg-9">
               <h1 class="text-main-1">{{profile.full_name}}</h1>

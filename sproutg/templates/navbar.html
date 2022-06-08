@@ -33,7 +33,7 @@
           </li>
           <li class="nk-drop-item">
             <a href="{% url 'profile' request.user.id%}">
-            <img src="{% static 'assets/images/profile-1.png' %}" alt="Profile" class="kuzza">
+            <img src="{{ curProfile.profile_pic.url }}" alt="Profile" class="kuzza">
             {{request.user.username}}
             </a>
             <ul class="dropdown">
