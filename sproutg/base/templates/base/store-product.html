@@ -68,10 +68,8 @@
 							<!-- END: Add to Cart -->
 							<!-- START: Meta -->
 							<div class="nk-product-meta">
-								<div><strong>SKU</strong>: 300-200-503</div>
 								<div><strong>Publisher</strong>: {{game.publisher}}</div>
-								<div><strong>Categories</strong>: <a href="#">online</a>, <a href="#">FPS</a>, <a href="#">MMO</a>, <a href="#">Action games</a></div>
-								<div><strong>Tags</strong>: <a href="#">blizzard</a>, <a href="#">action</a>, <a href="#">MMO</a></div>
+								<div><strong>Genres</strong>: <a href="#">{{game.genres.first}}</a>{% for genre in game.genres.all|slice:"1:" %}, <a href="#">{{genre.name}}</a>{% endfor %} </div>
 							</div>
 							<!-- END: Meta -->
 						</div>
@@ -100,7 +98,7 @@
 								<a class="nav-link active" href="#tab-description" role="tab" data-toggle="tab">Description</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="#tab-reviews" role="tab" data-toggle="tab">Reviews (3)</a>
+								<a class="nav-link" href="#tab-reviews" role="tab" data-toggle="tab">Reviews ({{reviews.count}})</a>
 							</li>
 						</ul>
 						<div class="tab-content">
@@ -127,7 +125,7 @@
 										<div class="nk-gap"></div>
 										<strong class="text-white">Genre:</strong>
 										<div class="nk-gap"></div>
-										TBD
+										<a href="#">{{game.genres.first}}</a>{% for genre in game.genres.all|slice:"1:" %}, <a href="#">{{genre.name}}</a>{% endfor %}
 										<div class="nk-gap"></div>
 									</div>
 									<div class="col-md-4">
@@ -193,38 +191,19 @@
 								<div class="nk-gap-2"></div>
 								<div class="nk-comments">
 									<!-- START: Review -->
+									{% for review in reviews %}
 									<div class="nk-comment">
+										<h4>{{review.title}}</h4>
 										<div class="nk-comment-meta">
-											<img src="{% static 'assets/images/avatar-2.jpg' %}" alt="Witch Murder" class="rounded-circle" width="35"> by <a href="#">Witch Murder</a> in 20 September, 2018
+											<img src="{% url review.customer.profilw %}" alt="Witch Murder" class="rounded-circle" width="35">
+											by <a href="{% url 'profile' review.customer.user.id%}">{{review.customer.user.username}}</a> in {{review.created}}
 											<div class="nk-review-rating" data-rating="4.5"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="far fa-star"></i></div>
 										</div>
 										<div class="nk-comment-text">
-											<p>Upon replenish great rule. Were tree, given day him night Fruit it moveth all. First they're creature seasons and creature fill a it have fifth, their own subdue brought above divided.</p>
-											<p>Behold it set, seas seas and meat divided Moveth cattle forth evening above moveth so, signs god a fruitful his after called that whose.</p>
+											<p>{{review.body}}</p>
 										</div>
 									</div>
-									<!-- END: Review -->
-									<!-- START: Review -->
-									<div class="nk-comment">
-										<div class="nk-comment-meta">
-											<img src="{% static 'assets/images/avatar-1.jpg' %}" alt="Hitman" class="rounded-circle" width="35"> by <a href="#">Hitman</a> in 14 Jule, 2018
-											<div class="nk-review-rating" data-rating="0.5"> <i class="fa fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i> <i class="far fa-star"></i></div>
-										</div>
-										<div class="nk-comment-text">
-											<p> I was awakened at daybreak by the charwoman, and having arrived at the inn, was at first placed inside the coach. :(</p>
-										</div>
-									</div>
-									<!-- END: Review -->
-									<!-- START: Review -->
-									<div class="nk-comment">
-										<div class="nk-comment-meta">
-											<img src="{% static 'assets/images/avatar-3.jpg' %}" alt="Wolfenstein" class="rounded-circle" width="35"> by <a href="#">Wolfenstein</a> in 27 June, 2018
-											<div class="nk-review-rating" data-rating="3.5"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i></div>
-										</div>
-										<div class="nk-comment-text">
-											<p>Divided thing, land it evening earth winged whose great after. Were grass night. To Air itself saw bring fly fowl. Fly years behold spirit day greater of wherein winged and form. Seed open don't thing midst created dry every greater divided of, be man is. Second Bring stars fourth gathering he hath face morning fill. Living so second darkness. Moveth were male. May creepeth. Be tree fourth.</p>
-										</div>
-									</div>
+									{% endfor %}
 									<!-- END: Review -->
 								</div>
 							</div>

@@ -68,7 +68,7 @@ class Review(models.Model):
     game = models.ForeignKey(Game, on_delete=models.SET_NULL, null=True)
   
     def __str__(self):
-        return self.name
+        return self.title
     
     
 class Transaction(models.Model):
