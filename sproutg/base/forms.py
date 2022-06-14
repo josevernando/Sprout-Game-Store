@@ -6,6 +6,7 @@ from django.forms import ModelForm
 class SignUpForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['username'].label = 'Username:'
         self.fields['username'].widget.attrs.update({
                 'type': 'text',
                 'name': 'username',
@@ -16,6 +17,7 @@ class SignUpForm(UserCreationForm):
                 'required': ''
             }
         )
+        self.fields['email'].label = 'E-mail:'
         self.fields['email'].widget.attrs.update({
                 'type': 'email',
                 'name': 'email',
@@ -25,6 +27,7 @@ class SignUpForm(UserCreationForm):
                 'required': ''
             }
         )
+        self.fields['password1'].label = 'Password:'
         self.fields['password1'].widget.attrs.update({
                 'type': 'password',
                 'name': 'password1',
@@ -34,6 +37,7 @@ class SignUpForm(UserCreationForm):
                 'required': ''
             }
         )
+        self.fields['password2'].label = 'Confirm Password:' 
         self.fields['password2'].widget.attrs.update({
                 'type': 'password',
                 'name': 'password2',
