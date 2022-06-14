@@ -8,6 +8,7 @@ from django.db.models import Q
 from django.shortcuts import render, redirect
 from .models import Genre, Review, Game, Customer, Profile
 from .forms import SignUpForm, ProfileForm, ReviewForm
+from .decorators import unauthenticated_user, allowed_users
 
 # Create your views here.
 
@@ -16,6 +17,7 @@ def breadCrumbs(request):
     print(crumbs)
     return crumbs
 
+@unauthenticated_user
 def loginUser(request):
     
     if request.method == 'POST':
@@ -38,6 +40,7 @@ def logoutUser(request):
     logout(request)
     return redirect('store')
 
+@unauthenticated_user
 def registerUser(request):
     form = SignUpForm()
     
