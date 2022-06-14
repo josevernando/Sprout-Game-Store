@@ -69,9 +69,12 @@ def storeProduct(request, pk):
     page = 'product'
     crumbs = breadCrumbs(request)
     game = Game.objects.get(id=pk)
-    
+    genres = Genre.objects.all()
+    game = Game.objects.get(id=pk)
+    highlights = Game.objects.all()[:3]
+        
     curProfile = Profile.objects.get(user=request.user) if request.user.is_authenticated else None
-    context = {'curProfile': curProfile, 'game': game, 'crumbs': crumbs, 'page': page}
+    context = {'curProfile': curProfile, 'game': game, 'crumbs': crumbs, 'page': page, 'genres': genres, 'highlights': highlights}
     return render(request=request, template_name='base/store-product.html', context=context,)
 
 def storeCart(request):
