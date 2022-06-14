@@ -1,0 +1,50 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+<main class="nk-main">
+    <div class="nk-gap-1"></div>
+    <div class="container">
+        <ul class="nk-breadcrumbs">
+            <li><span>Sign In</span></li>
+        </ul>
+    </div>
+    <div class="nk-gap-1"></div>
+    <!-- END: Breadcrumbs -->
+    <div class="container">
+        <!-- START: Forums List -->
+        
+            <div class="modal-body bg-dark-2 ">
+
+                <div class="nk-gap-3"></div>
+                <form action="" method="POST" class="nk-form text-white" novalidate="novalidate" _lpchecked="1">
+                    {% csrf_token %}
+                    <div class="row vertical-gap pr-60 pl-60">
+                        <div class="col-md-12">
+
+                            <div class="nk-gap"></div>
+                            <input type="text" name="username" placeholder="Username" class=" form-control" autocomplete="off">
+
+                            <div class="nk-gap"></div>
+                            <input type="password" name="password" placeholder="Password" class="required form-control" autocomplete="off">
+
+                        </div>
+                        <div class="col-md-12">
+                            <input class="nk-btn nk-btn-rounded nk-btn-color-white nk-btn-block" type="submit" value="Sign In" >
+                        </div>
+                        <div class="col-md-12">
+                            <small><a href="#">Forgot your password?</a></small>
+                            <br>
+                            <small><a href="{% url 'register' %}">Not a member? Sign up</a></small>
+                        </div>
+                        
+                    </div>
+                </form>
+                <div class="nk-gap-3"></div>
+            </div>
+        
+        <!-- END: Forums List -->
+    </div>
+   
+</main>
+{% endblock content %}

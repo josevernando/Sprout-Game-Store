@@ -1,0 +1,74 @@
+{% load static %}
+<!--
+  START: Sidebar
+  
+  Additional Classes:
+      .nk-sidebar-left
+      .nk-sidebar-right
+      .nk-sidebar-sticky
+  -->
+<aside class="nk-sidebar nk-sidebar-right nk-sidebar-sticky">
+  <div class="nk-widget">
+    <div class="nk-widget-content">
+      <form action="{% url 'store' %}" class="nk-form nk-form-style-1" novalidate="novalidate">
+        <div class="input-group">
+          <input name="q" type="text" class="form-control" placeholder="Search...">
+          <button class="nk-btn nk-btn-color-main-1"><span class="ion-search"></span></button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="nk-widget nk-widget-highlighted">
+    <h4 class="nk-widget-title"><span><span class="text-main-1">Category</span> Menu</span></h4>
+    <div class="nk-widget-content">
+      <ul class="nk-widget-categories">
+        {% for genre in genres %}
+        <li><a href="{% url 'store'%}?q={{genre.name}}">{{genre.name}}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="nk-widget nk-widget-highlighted">
+    <h4 class="nk-widget-title"><span><span class="text-main-1">We</span> Are Social</span></h4>
+    <div class="nk-widget-content">
+      <ul class="nk-social-links-3 nk-social-links-cols-4">
+        <li><a class="nk-social-twitch" href="#"><span class="fab fa-twitch"></span></a></li>
+        <li><a class="nk-social-instagram" href="#"><span class="fab fa-instagram"></span></a></li>
+        <li><a class="nk-social-facebook" href="#"><span class="fab fa-facebook"></span></a></li>
+        <li><a class="nk-social-google-plus" href="#"><span class="fab fa-google-plus"></span></a></li>
+        <li><a class="nk-social-youtube" href="#"><span class="fab fa-youtube"></span></a></li>
+        <li><a class="nk-social-twitter" href="#" target="_blank"><span class="fab fa-twitter"></span></a></li>
+        <li><a class="nk-social-pinterest" href="#"><span class="fab fa-pinterest-p"></span></a></li>
+        <li><a class="nk-social-rss" href="#"><span class="fa fa-rss"></span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="nk-widget nk-widget-highlighted">
+    <h4 class="nk-widget-title"><span><span class="text-main-1">Most</span> Popular</span></h4>
+    <div class="nk-widget-content">
+      {% for game in highlights|slice:":3" %}
+      <div class="nk-widget-post">
+        <a href="store-product.html" class="nk-post-image">
+        <img src="{% static 'assets/images/product-1-xs.jpg' %}" alt="{{game.name}}">
+        </a>
+        <h3 class="nk-post-title"><a href="store-product.html">{{game.name}}</a></h3>
+        <div class="nk-product-rating" data-rating="4"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="far fa-star"></i></div>
+        <div class="nk-product-price">Rp.{{game.price}}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="nk-widget nk-widget-highlighted">
+    <h4 class="nk-widget-title"><span>Instagram</span></h4>
+    <div class="nk-widget-content">
+      <div class="nk-instagram row sm-gap vertical-gap multi-column"></div>
+    </div>
+  </div>
+  <div class="nk-widget nk-widget-highlighted">
+    <h4 class="nk-widget-title"><span>Our Twitter</span></h4>
+    <div class="nk-widget-content">
+      <div class="nk-twitter-list" data-twitter-count="2"></div>
+    </div>
+  </div>
+</aside>
+<!-- END: Sidebar -->
