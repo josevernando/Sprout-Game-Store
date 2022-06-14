@@ -27,11 +27,12 @@
               <label for="{{field.attrs.id}}">{{field.label}}:</label>
 							<br>
               {{field}}
+              <div class="nk-gap-1"></div>
 						</div>
 						{% endfor %}
             <div class="nk-gap-2"></div>
             <input class="nk-btn nk-btn-rounded nk-btn-color-white nk-btn" type="submit" value="Save Profile" >
-            <a href="{% url 'profile' request.user.id %}" class="nk-btn nk-btn-rounded nk-btn-color-main-1">Cancel</a>
+            <a href="{% url 'profile' request.user.id %}" class="ml-5 nk-btn nk-btn-rounded nk-btn-color-main-1">Cancel</a>
           </div>
           
         </div>

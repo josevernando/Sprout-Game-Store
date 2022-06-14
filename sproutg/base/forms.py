@@ -69,6 +69,7 @@ class ProfileForm(ModelForm):
                 'class': 'required form-control'
             }
         )
+        self.fields['birth_date'].label = 'Birthday'
         self.fields['birth_date'].widget.attrs.update({
                 'type': 'text',
                 'name': 'birth_date',
@@ -77,11 +78,13 @@ class ProfileForm(ModelForm):
                 'class': 'required form-control'
             }
         )
+        self.fields['description'].label = 'About Me'
         self.fields['description'].widget.attrs.update({
                 'name': 'description',
                 'cols': '40', 
-                'rows': '10',
-                'id': "description"
+                'rows': '6',
+                'id': 'description',
+                'class': 'form-control'
             }
         )
        
