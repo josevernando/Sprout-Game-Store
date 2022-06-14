@@ -80,7 +80,8 @@
                 <a href="{% url 'addToList' 'wishlist' game.id %}" class="nk-btn nk-btn-sm nk-btn-rounded nk-btn-color-white nk-btn-hover-color-main-1 px-2">
                 <img src="{% static 'assets/images/heart-icon.png'%}" class="pict-icon m-0" alt="">
                 </a>
-                <a href="{% url 'addToList' 'cart' game.id %}" class="ml-5 nk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-hover-color-main-1">Add to Cart</a>
+                <span class="mx-1"></span>
+                <a href="{% url 'addToList' 'cart' game.id %}" class="nk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-hover-color-main-1 mt-2">Add to Cart</a>
               </div>
             </div>
           </div>
