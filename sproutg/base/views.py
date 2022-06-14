@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.db.models import Q
 
 from django.shortcuts import render, redirect
-from .models import Review, Game, Customer, Profile
+from .models import Genre, Review, Game, Customer, Profile
 from .forms import SignUpForm, ProfileForm
 
 # Create your views here.
@@ -58,10 +58,11 @@ def store(request):
     page = 'home'
     crumbs = breadCrumbs(request)
     q = request.GET.get('q') if request.GET.get('q') != None else ''
-    games = Game.objects.filter(name__icontains=q)
+    games = Game.objects.filter(Q(name__icontains=q)|Q(genres__name__icontains=q))
+    genres = Genre.objects.all()
     
     curProfile = Profile.objects.get(user=request.user) if request.user.is_authenticated else None
-    context = {'curProfile': curProfile, 'games': games, 'crumbs': crumbs, 'page': page}
+    context = {'curProfile': curProfile, 'games': games, 'crumbs': crumbs, 'page': page, 'genres': genres, 'highlights': games[:10]}
     return render(request=request, template_name='base/store.html', context=context)
 
 def storeProduct(request, pk):

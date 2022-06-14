@@ -35,7 +35,7 @@ class Game(models.Model):
   
     def __str__(self):
         return self.name
-
+    
 class Customer(models.Model):
     cart = models.ManyToManyField(Game, related_name='cart', blank=True)
     myGames = models.ManyToManyField(Game, related_name='myGames', blank=True)
