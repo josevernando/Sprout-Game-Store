@@ -153,6 +153,7 @@ def userProfile(request, userid):
     context = {'curProfile': curProfile, 'profile': profile, 'games': games, 'crumbs': crumbs, 'page': page}
     return render(request=request, template_name='base/profile.html', context=context)
 
+@login_required(login_url='/login')
 def userProfileEdit(request, userid):
     page = 'edit profile'
     crumbs = breadCrumbs(request)
@@ -172,3 +173,12 @@ def userProfileEdit(request, userid):
     curProfile = Profile.objects.get(user=request.user) if request.user.is_authenticated else None
     context = {'curProfile': curProfile, 'profile': profile,'form': form, 'crumbs': crumbs, 'page': page}
     return render(request=request, template_name='base/profile-edit.html', context=context)
+
+def about(request):
+    page = 'about'
+    crumbs = breadCrumbs(request)
+    genres = Genre.objects.all()
+    curProfile = Profile.objects.get(user=request.user) if request.user.is_authenticated else None
+    
+    context = {'curProfile': curProfile, 'crumbs': crumbs, 'page': page, 'genres': genres}
+    return render(request=request, template_name='base/about.html', context=context)

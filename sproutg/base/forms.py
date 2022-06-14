@@ -114,7 +114,7 @@ class ReviewForm(ModelForm):
                 'rows': '6',
                 'class': 'required form-control',
                 'placeholder': 'Leave a Review'
-            }
+            }   
         )
        
     

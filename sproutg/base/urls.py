@@ -14,5 +14,5 @@ urlpatterns = [
     path('search', views.storeSearch, name="search"),
     path('profile/<str:userid>', views.userProfile, name="profile"),
     path('profile/edit/<str:userid>', views.userProfileEdit, name="profile-edit"),
-
+    path('about/', views.about, name="about"),
 ]
