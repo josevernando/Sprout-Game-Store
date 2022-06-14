@@ -56,13 +56,20 @@
 							</div>
 							<!-- START: Add to Cart -->
 							<div class="nk-gap-2"></div>
-							<form action="{% url 'addToList' 'cart' game.id %}" class="nk-product-addtocart">
+							<div class="nk-product-addtocart">
 								<div class="nk-product-price">Rp. {{game.price}}</div>
 								<div class="nk-gap-1"></div>
 								<div class="input-group">
-									<input type="number" class="form-control" value="1" min="1" max="21">
-									<button class="nk-btn nk-btn-rounded nk-btn-color-main-1">Add to Cart</button>
+									<a href="{% url 'addToList' 'wishlist' game.id %}" class="nk-btn nk-btn-rounded nk-btn-color-dark-3 px-2">
+										<img src="{% static 'assets/images/heart-icon.png'%}" class="pict-icon m-0" alt="">
+									</a>
+									<span class="mx-1"></span>
+									<a href="{% url 'addToList' 'cart' game.id %}" class="nk-btn nk-btn nk-btn-rounded nk-btn-color-main-1">Add to Cart</a>
 								</div>
+							</div>
+
+							<form action="{% url 'addToList' 'cart' game.id %}" class="nk-product-addtocart">
+								
 							</form>
 							<div class="nk-gap-3"></div>
 							<!-- END: Add to Cart -->
@@ -144,17 +151,13 @@
 								<!-- START: Reply -->
 								<h3 class="h4">Add a Review</h3>
 								<div class="nk-reply">
-									<form action="#" class="nk-form">
-										<div class="row vertical-gap sm-gap">
-											<div class="col-sm-6">
-												<input type="text" class="form-control required" name="name" placeholder="Name *">
-											</div>
-											<div class="col-sm-6">
-												<input type="text" class="form-control required" name="title" placeholder="Title *">
-											</div>
-										</div>
+									{% if request.user.is_authenticated %}
+									<form method="POST" class="nk-form">
+										{% csrf_token %}
+										{% for field in form %}
+										{{field}}
 										<div class="nk-gap-1"></div>
-										<textarea class="form-control required" name="message" rows="5" placeholder="Your Review *" aria-required="true"></textarea>
+										{% endfor %}
 										<div class="nk-gap-1"></div>
 										<div class="nk-rating">
 											<input type="radio" id="review-rate-5" name="review-rate" value="5">
@@ -185,6 +188,9 @@
 										</div>
 										<button class="nk-btn nk-btn-rounded nk-btn-color-dark-3 float-right">Submit</button>
 									</form>
+									{% else %}
+									<a href="{% url 'login' %}"> Login</a> to add a review.
+									{% endif %}
 								</div>
 								<!-- END: Reply -->
 								<div class="clearfix"></div>
@@ -195,8 +201,8 @@
 									<div class="nk-comment">
 										<h4>{{review.title}}</h4>
 										<div class="nk-comment-meta">
-											<img src="{% url review.customer.profilw %}" alt="Witch Murder" class="rounded-circle" width="35">
-											by <a href="{% url 'profile' review.customer.user.id%}">{{review.customer.user.username}}</a> in {{review.created}}
+											<img src="{{ review.profile.profile_pic.url }}" alt="Witch Murder" class="rounded-circle" width="35">
+											by <a href="{% url 'profile' review.profile.user.id%}">{{review.profile.user.username}}</a> in {{review.created}}
 											<div class="nk-review-rating" data-rating="4.5"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="far fa-star"></i></div>
 										</div>
 										<div class="nk-comment-text">

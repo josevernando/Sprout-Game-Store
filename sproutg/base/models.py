@@ -1,4 +1,3 @@
-from email.policy import default
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -64,7 +63,7 @@ class Review(models.Model):
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
     
-    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
+    profile = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
     game = models.ForeignKey(Game, on_delete=models.SET_NULL, null=True)
   
     def __str__(self):

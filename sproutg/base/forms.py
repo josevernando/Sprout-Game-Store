@@ -1,5 +1,4 @@
-from dataclasses import field
-from .models import Profile
+from .models import Profile, Review
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm
@@ -89,7 +88,6 @@ class ProfileForm(ModelForm):
         )
        
     
-    
     class Meta:
         model = Profile
         fields = ['profile_pic', 'full_name', 'birth_date', 'description']
@@ -97,3 +95,30 @@ class ProfileForm(ModelForm):
     def getAllExceptPic(self):
         print(self.fields['profile_pic'])
         return [self['full_name'],self['birth_date'],self['description']]
+
+class ReviewForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        self.fields['title'].widget.attrs.update({
+                'type': 'text', 
+                'name': 'full_name', 
+                'maxlength': '200',
+                'class': 'required form-control',
+                'placeholder': 'Review Title'
+            }
+        )
+        self.fields['body'].widget.attrs.update({
+                'name': 'description',
+                'cols': '40', 
+                'rows': '6',
+                'class': 'required form-control',
+                'placeholder': 'Leave a Review'
+            }
+        )
+       
+    
+    class Meta:
+        model = Review
+        fields = ['title', 'body']
+        

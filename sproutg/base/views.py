@@ -7,7 +7,7 @@ from django.db.models import Q
 
 from django.shortcuts import render, redirect
 from .models import Genre, Review, Game, Customer, Profile
-from .forms import SignUpForm, ProfileForm
+from .forms import SignUpForm, ProfileForm, ReviewForm
 
 # Create your views here.
 
@@ -73,9 +73,18 @@ def storeProduct(request, pk):
     game = Game.objects.get(id=pk)
     reviews = Review.objects.filter(game=game) 
     highlights = Game.objects.all()[:3]
-
+    form = ReviewForm()
     curProfile = Profile.objects.get(user=request.user) if request.user.is_authenticated else None
-    context = {'curProfile': curProfile, 'game': game, 'crumbs': crumbs, 'page': page, 'genres': genres, 'highlights': highlights, 'reviews': reviews}
+    
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.profile = curProfile
+            review.game = game
+            review.save()
+
+    context = {'curProfile': curProfile, 'game': game, 'crumbs': crumbs, 'page': page, 'genres': genres, 'highlights': highlights, 'reviews': reviews, 'form': form}
     return render(request=request, template_name='base/store-product.html', context=context,)
 
 def storeCart(request):
