@@ -1,4 +1,5 @@
 from multiprocessing import context
+from tokenize import group
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -6,7 +7,7 @@ from django.contrib import messages
 from django.db.models import Q
 
 from django.shortcuts import render, redirect
-from .models import Genre, Review, Game, Customer, Profile
+from .models import Developer, Genre, Review, Game, Customer, Profile
 from .forms import SignUpForm, ProfileForm, ReviewForm
 from .decorators import unauthenticated_user, allowed_users
 
@@ -19,7 +20,6 @@ def breadCrumbs(request):
 
 @unauthenticated_user
 def loginUser(request):
-    
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -40,22 +40,45 @@ def logoutUser(request):
     logout(request)
     return redirect('store')
 
-@unauthenticated_user
-def registerUser(request):
-    form = SignUpForm()
-    
+def userCreator(request, group='customer'):
+    valid = False
+    user = None
     if (request.method == 'POST'):
         form = SignUpForm(request.POST)
         if form.is_valid:
             user = form.save()
-            customer = Customer.objects.create(user=user)
-            login(request, user)
-            return redirect('profile-edit', request.user.id)
+            if group == 'customer':
+                Customer.objects.create(user=user)
+            else:
+                Developer.objects.create(user=user)
+            valid = True
         else:
             messages.error(request, 'An error has occured during registration')
-    
-    context = {'form': form}
-    return render(request, 'base/register_page.html', context=context)
+    return user, valid
+
+@unauthenticated_user
+def registerUser(request):
+    form = SignUpForm()
+    group = 'customer'
+    user, valid = userCreator(request, group)
+    context = {'form': form, 'group': group}
+    if valid:
+        login(request, user)
+        return redirect('profile-edit', request.user.id)
+    else:
+        return render(request, template_name='base/register_page.html', context=context)
+
+@unauthenticated_user
+def registerDev(request):
+    form = SignUpForm()
+    group = 'developer'
+    user, valid = userCreator(request, group)
+    context = {'form': form, 'group': group}
+    if valid:
+        login(request, user)
+        return redirect('profile-edit', request.user.id)
+    else:
+        return render(request, template_name='base/register_page.html', context=context)
 
 def store(request):
     page = 'home'
@@ -111,7 +134,6 @@ def storeSearch(request):
 
 @login_required(login_url='/login')
 def addToList(request, gameList, gameid):
-    
     customer = Customer.objects.get(user=request.user)
     game = Game.objects.get(id=gameid)
     if gameList == 'cart':

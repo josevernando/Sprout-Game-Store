@@ -16,21 +16,34 @@
       <div class="nk-gap-3"></div>
       <form action="" method="POST" class="nk-form text-white" novalidate="novalidate" _lpchecked="1">
         {% csrf_token %}
-        <div class="row vertical-gap pr-60 pl-60">
-          <div class="col-md-12">
+        <div class="row vertical-gap px-15 justify-content-center">
+          <div class="col-md-5">
             {% for field in form %}
 						{{field.label}}
             {{field}}
 						<div class="nk-gap-1"></div>
             {% endfor %}
-          </div>
-          <div class="col-md-12">
             <input class="nk-btn nk-btn-rounded nk-btn-color-white nk-btn-block" type="submit" value="Sign Up" >
+            <div class="d-flex justify-content-between">
+              <div><small><a href="{% url 'login' %}">Already Signed Up? Sign In</a></small></div>
+              {% if group == 'customer' %}
+              <div><small><a href="{% url 'register-dev' %}">Are you a developer? Sign up here.</a></small></div>
+              {% else %}
+              <div><small><a href="{% url 'register' %}">Not a developer? Sign up here.</a></small></div>
+              {% endif %}
+            </div>
           </div>
-          <div class="col-md-12">
-            <small><a href="{% url 'login' %}">Already Signed Up? Sign In</a></small>
+          <div class="col-md-5">
+            {% if group == 'customer' %}
+            <h4 class="nk-widget-title"><span class="text-main-1">Welcome,</span> Fellow Gamers</h4>
+            <img src="https://www.financialexpress.com/wp-content/uploads/2021/10/Gamer.jpg" class="w-100" alt="">
+            {% else %}
+            <h4 class="nk-widget-title"><span class="text-main-1">Welcome,</span> Future Developers</h4>
+            <img src="https://crazyoystergames.com/wp-content/uploads/2020/08/GameDeveloper-1024x910.png" class="w-100" alt="">
+            {% endif %}
           </div>
         </div>
+        
       </form>
       <div class="nk-gap-3"></div>
     </div>
