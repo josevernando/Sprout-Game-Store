@@ -15,7 +15,6 @@ from .decorators import unauthenticated_user, allowed_users
 
 def pageHeader(request, page):
     user = request.user 
-    curProfile = Profile.objects.get(user=user) if user.is_authenticated else None 
     userGroups = [x.name for x in user.groups.all()] if user.groups != None else None
     crumbs = (request.path).split('/')[1:-1]
     extraContext = {'curUser': user,
