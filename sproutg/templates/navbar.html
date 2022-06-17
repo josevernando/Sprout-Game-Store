@@ -1,5 +1,3 @@
-
-
 {% load static %}
 <header class="nk-header nk-header-opaque">
   <!-- START: Top Contacts -->
@@ -20,7 +18,7 @@
             Store
             </a>
           </li>
-          {% if request.user.is_authenticated %}
+          {% if curUser.is_authenticated %}
           <li>
             <a href="elements.html">
             My Games
@@ -28,23 +26,23 @@
           </li>
           <li>
             <a href="{% url 'cart' %}">
-            Cart({{request.user.customer.cart.count}})
+            Cart({{curUser.customer.cart.count}})
             </a>
           </li>
           <li class="nk-drop-item">
-            <a href="{% url 'profile' request.user.id%}">
-            <img src="{{ curProfile.profile_pic.url }}" alt="Profile" class="kuzza">
-            {{request.user.username}}
+            <a href="{% url 'profile' curUser.id %}">
+            <img src="{{ curUser.profile.profile_pic.url }}" alt="Profile" class="kuzza">
+            {{curUser.username}}
             </a>
             <ul class="dropdown">
               <li>
-                <a href="{% url 'profile' request.user.id%}">
+                <a href="{% url 'profile' curUser.id %}">
                 Profile
                 </a>
               </li>
               <li>
                 <a href="{% url 'wishlist' %}">
-                Wishlist({{request.user.customer.wishList.count}})
+                Wishlist({{curUser.customer.wishList.count}})
                 </a>
               </li>
               <li>

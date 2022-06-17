@@ -90,10 +90,6 @@
 							<li><span class="nk-social-google-plus" title="Share page on Google+" data-share="google-plus"><span class="fab fa-google-plus"></span></span></li>
 							<li><span class="nk-social-twitter" title="Share page on Twitter" data-share="twitter"><span class="fab fa-twitter"></span></span></li>
 							<li><span class="nk-social-pinterest" title="Share page on Pinterest" data-share="pinterest"><span class="fab fa-pinterest-p"></span></span></li>
-							<!-- Additional Share Buttons
-								<li><span class="nk-social-linkedin" title="Share page on LinkedIn" data-share="linkedin"><span class="fab fa-linkedin"></span></span></li>
-								<li><span class="nk-social-vk" title="Share page on VK" data-share="vk"><span class="fab fa-vk"></span></span></li>
-								-->
 						</ul>
 					</div>
 					<!-- END: Share -->
@@ -151,7 +147,7 @@
 								<!-- START: Reply -->
 								<h3 class="h4">Add a Review</h3>
 								<div class="nk-reply">
-									{% if request.user.is_authenticated %}
+									{% if curUser.is_authenticated %}
 									<form method="POST" class="nk-form">
 										{% csrf_token %}
 										{% for field in form %}

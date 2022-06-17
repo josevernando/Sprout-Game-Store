@@ -18,8 +18,7 @@ def pageHeader(request, page):
     curProfile = Profile.objects.get(user=user) if user.is_authenticated else None 
     userGroups = [x.name for x in user.groups.all()] if user.groups != None else None
     crumbs = (request.path).split('/')[1:-1]
-    extraContext = {'user': user,
-                    'curProfile': curProfile,
+    extraContext = {'curUser': user,
                     'userGroups': userGroups,
                     'crumbs': crumbs,
                     'page': page}
@@ -112,7 +111,7 @@ def storeProduct(request, pk):
         form = ReviewForm(request.POST)
         if form.is_valid():
             review = form.save(commit=False)
-            review.profile = extraContext['curProfile']
+            review.profile = extraContext['curUser'].profile
             review.game = game
             review.save()
 
@@ -202,10 +201,10 @@ def devProfile(request, userid):
 def userProfileEdit(request):
     Profile.objects.get_or_create(user=request.user)
     extraContext = pageHeader(request, 'edit profile')
-    form = ProfileForm(instance=extraContext['curProfile'])
+    form = ProfileForm(instance=extraContext['curUser'].profile)
     
     if request.method == 'POST':
-        form = ProfileForm(request.POST, request.FILES, instance=extraContext['curProfile'])
+        form = ProfileForm(request.POST, request.FILES, instance=extraContext['curUser'].profile)
         if form.is_valid:
             profile = form.save()
             

@@ -18,7 +18,7 @@
               <h3>{{profile.user.username}}</h3>
 							<p>Joined on, {{profile.user.date_joined}}</p>
 
-							{% if request.user == profile.user %}
+							{% if curUser == profile.user %}
 							<a href="{% url 'profile-edit' %}" class="nk-btn nk-btn-sm nk-btn-rounded nk-btn-color-white">Edit Profile</a>
 							{% endif %}
 							
