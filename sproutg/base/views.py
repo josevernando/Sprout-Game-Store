@@ -13,10 +13,18 @@ from .decorators import unauthenticated_user, allowed_users
 
 # Create your views here.
 
-def breadCrumbs(request):
+def pageHeader(request, page):
+    user = request.user 
+    curProfile = Profile.objects.get(user=user) if user.is_authenticated else None 
+    userGroups = [x.name for x in user.groups.all()] if user.groups != None else None
     crumbs = (request.path).split('/')[1:-1]
-    print(crumbs)
-    return crumbs
+    extraContext = {'user': user,
+                    'curProfile': curProfile,
+                    'userGroups': userGroups,
+                    'crumbs': crumbs,
+                    'page': page}
+    
+    return extraContext
 
 @unauthenticated_user
 def loginUser(request):
@@ -81,61 +89,62 @@ def registerDev(request):
         return render(request, template_name='base/register_page.html', context=context)
 
 def store(request):
-    page = 'home'
-    crumbs = breadCrumbs(request)
+    extraContext = pageHeader(request, 'home')
     q = request.GET.get('q') if request.GET.get('q') != None else ''
     games = Game.objects.filter(Q(name__icontains=q)|Q(genres__name__icontains=q))
     genres = Genre.objects.all()
     
-    curProfile = Profile.objects.get(user=request.user) if request.user.is_authenticated else None
-    context = {'curProfile': curProfile, 'games': games, 'crumbs': crumbs, 'page': page, 'genres': genres, 'highlights': games[:10]}
+    context = {'games': games, 
+               'genres': genres, 
+               'highlights': games[:10]} | extraContext
+    
     return render(request=request, template_name='base/store.html', context=context)
 
 def storeProduct(request, pk):
-    page = 'product'
-    crumbs = breadCrumbs(request)
+    extraContext = pageHeader(request, 'product')
     game = Game.objects.get(id=pk)
     genres = Genre.objects.all()
-    game = Game.objects.get(id=pk)
     reviews = Review.objects.filter(game=game) 
     highlights = Game.objects.all()[:3]
     form = ReviewForm()
-    curProfile = Profile.objects.get(user=request.user) if request.user.is_authenticated else None
     
     if request.method == 'POST':
         form = ReviewForm(request.POST)
         if form.is_valid():
             review = form.save(commit=False)
-            review.profile = curProfile
+            review.profile = extraContext['curProfile']
             review.game = game
             review.save()
 
-    context = {'curProfile': curProfile, 'game': game, 'crumbs': crumbs, 'page': page, 'genres': genres, 'highlights': highlights, 'reviews': reviews, 'form': form}
-    return render(request=request, template_name='base/store-product.html', context=context,)
+    context = {'game': game, 
+               'genres': genres, 
+               'highlights': highlights, 
+               'reviews': reviews, 
+               'form': form} | extraContext
+    
+    return render(request=request, template_name='base/store-product.html', context=context)
 
 def storeCart(request):
-    page = 'cart'
-    crumbs = breadCrumbs(request)
+    extraContext = pageHeader(request, 'cart')
     userCustomer = Customer.objects.get(user=request.user)
     cart = userCustomer.cart.all()    
     
-    curProfile = Profile.objects.get(user=request.user) if request.user.is_authenticated else None
-    context = {'curProfile': curProfile, 'cart': cart, 'crumbs': crumbs, 'page': page}
+    context = {'cart': cart} | extraContext
+    
     return render(request=request, template_name='base/cart.html', context=context)
 
 def storeSearch(request):
-    page = 'Search'
-    crumbs = breadCrumbs(request)
+    extraContext = pageHeader(request, 'search')
     games = Game.objects.all()
-    
-    curProfile = Profile.objects.get(user=request.user) if request.user.is_authenticated else None
-    context = {'curProfile': curProfile, 'games': games, 'crumbs': crumbs, 'page': page}
+
+    context = {'games': games} | extraContext
     return render(request=request, template_name='base/store-search.html', context=context)
 
 @login_required(login_url='/login')
 def addToList(request, gameList, gameid):
     customer = Customer.objects.get(user=request.user)
     game = Game.objects.get(id=gameid)
+    
     if gameList == 'cart':
         customer.cart.add(game)
     elif gameList == 'wishlist':
@@ -147,6 +156,7 @@ def addToList(request, gameList, gameid):
 def removeFromList(request, gameList, gameid):
     customer = Customer.objects.get(user=request.user)
     game = Game.objects.get(id=gameid)
+    
     if gameList == 'cart':
         customer.cart.remove(game)
     elif gameList == 'wishlist':
@@ -156,38 +166,46 @@ def removeFromList(request, gameList, gameid):
 
 @login_required(login_url='/login')
 def storeWishlist(request):
-    page = 'wishlist'
-    crumbs = breadCrumbs(request)
+    extraContext = pageHeader(request, 'cart')
     customer = Customer.objects.get(user=request.user)
     wishlist = customer.wishList.all()
     
-    curProfile = Profile.objects.get(user=request.user) if request.user.is_authenticated else None
-    context = {'curProfile': curProfile, 'wishlist': wishlist, 'crumbs': crumbs, 'page': page}
+    context = {'wishlist': wishlist} | extraContext
     
     return render(request=request, template_name='base/wishlist.html', context=context)
 
 def userProfile(request, userid):
-    page = 'profile'
-    crumbs = breadCrumbs(request)
+    extraContext = pageHeader(request, 'user profile')
     user = User.objects.get(id=userid)
     customer = Customer.objects.get(user=user)
     games = customer.myGames.all()[:4]
     profile = Profile.objects.get(user=user)
     
-    curProfile = Profile.objects.get(user=request.user) if request.user.is_authenticated else None
-    context = {'curProfile': curProfile, 'profile': profile, 'games': games, 'crumbs': crumbs, 'page': page}
+    context = {'profile': profile, 
+               'games': games} | extraContext
+    
     return render(request=request, template_name='base/profile.html', context=context)
 
-@login_required(login_url='/login')
-def userProfileEdit(request, userid):
-    page = 'edit profile'
-    crumbs = breadCrumbs(request)
+def devProfile(request, userid):
+    extraContext = pageHeader(request, 'developer profile')
     user = User.objects.get(id=userid)
-    profile, created = Profile.objects.get_or_create(user=user)
+    developer = Developer.objects.get(user=user)
+    games = developer.game_list.all()[:4]
+    profile = Profile.objects.get(user=user)
     
-    form = ProfileForm(instance=profile)
+    context = {'profile': profile, 
+               'games': games} | extraContext
+    
+    return render(request=request, template_name='base/profile-dev.html', context=context)
+
+@login_required(login_url='/login')
+def userProfileEdit(request):
+    Profile.objects.get_or_create(user=request.user)
+    extraContext = pageHeader(request, 'edit profile')
+    form = ProfileForm(instance=extraContext['curProfile'])
+    
     if request.method == 'POST':
-        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        form = ProfileForm(request.POST, request.FILES, instance=extraContext['curProfile'])
         if form.is_valid:
             profile = form.save()
             
@@ -195,15 +213,14 @@ def userProfileEdit(request, userid):
         else:
             messages.error(request, 'An error has occured during registration')
     
-    curProfile = Profile.objects.get(user=request.user) if request.user.is_authenticated else None
-    context = {'curProfile': curProfile, 'profile': profile,'form': form, 'crumbs': crumbs, 'page': page}
+    context = {'form': form} | extraContext
+    
     return render(request=request, template_name='base/profile-edit.html', context=context)
 
 def about(request):
-    page = 'about'
-    crumbs = breadCrumbs(request)
+    extraContext = pageHeader(request, 'developer profile')
     genres = Genre.objects.all()
-    curProfile = Profile.objects.get(user=request.user) if request.user.is_authenticated else None
     
-    context = {'curProfile': curProfile, 'crumbs': crumbs, 'page': page, 'genres': genres}
+    context = {'genres': genres} | extraContext
+    
     return render(request=request, template_name='base/about.html', context=context)
