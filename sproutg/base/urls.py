@@ -16,5 +16,5 @@ urlpatterns = [
     path('profile/edit/', views.userProfileEdit, name="profile-edit"),
     path('about/', views.about, name="about"),
     path('register/dev/', views.registerDev, name="register-dev"),
-    path('profile/<str:userid>/', views.devProfile, name="profile-dev"),
+    path('profile/dev/<str:userid>/', views.devProfile, name="profile-dev"),
 ]

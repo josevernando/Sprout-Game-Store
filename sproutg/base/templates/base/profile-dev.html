@@ -14,7 +14,7 @@
 							<img src="{{ profile.profile_pic.url }}" alt="Profile" class="kuzza-2">
             </div>
             <div class="col-lg-9">
-              <h1 class="text-main-1">{{profile.full_name}}</h1>
+              <h1 class="text-main-1">{{profile.user.developer.developer_name}}</h1>
               <h3>{{profile.user.username}}</h3>
 							<p>Joined on, {{profile.user.date_joined}}</p>
 
@@ -28,15 +28,13 @@
       </div>
       <div class="col-lg-4">
         <div class="nk-box-2 bg-dark-2">
-          <h3>About Me</h3>
+          <h3>About Us</h3>
           <p class="text-white">{{profile.description}}</p>
-					<h5>Birthday</h5>
-					<p class="text-white">{{profile.birth_date}}</p>
         </div>
       </div>
       <div class="col-lg-8">
         <div class="nk-box-2 bg-dark-2">
-					<h3 class="text-main-1">Recent Games</h3>
+					<h3 class="text-main-1">Game Catalogue</h3>
 					{% for game in games %}
 					<div class="row">
 						<div class="nk-product-cart-thumb col-lg-3">
@@ -45,9 +43,11 @@
 							</a>
 						</div>
 						<div class="col-lg-9 py-2">
-							<a href="{% url 'store-product' game.id %}" class="nk-image-box-1 nk-post-image"></a>
-								<h4>{{game.name}}</h4>
-							</a>
+							<h4 class="nk-product-title h5">
+                <a href="{% url 'store-product' game.id %}">
+                  {{game.name}}
+                </a>
+              </h4>
 							<div class="nk-product-meta">
 								<div><strong>Publisher</strong>: {{game.publisher}}</div>
 								<div><strong>Genres</strong>: {% for genre in game.genres.all %}<a href="#">{{genre.name}}</a>, {% endfor %}</div>
