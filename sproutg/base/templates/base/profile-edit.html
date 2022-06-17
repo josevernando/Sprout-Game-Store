@@ -8,7 +8,7 @@
   <!-- END: Breadcrumbs -->
   <div class="container">
     <div class="nk-store nk-store-checkout">
-      <h3 class="nk-decorated-h-2"><span class="text-main-1">{{profile.user.username}}</span></h3>
+      <h3 class="nk-decorated-h-2"><span class="text-main-1">{{curProfile.user.username}}</span></h3>
 
       <div class="nk-gap"></div>
       <form action="" method="POST" class="nk-form" enctype="multipart/form-data">
@@ -16,7 +16,7 @@
 				<div class="row vertical-gap nk-box-1 bg-dark-2 d-flex">
           <div class="col-lg-4 d-flex flex-column align-items-center justify-content-center">
             <div>
-              <img id="preview" src="{{ profile.profile_pic.url }}" alt="Profile" class="kuzza-3">
+              <img id="preview" src="{{ curProfile.profile_pic.url }}" alt="Profile" class="kuzza-3">
             </div>
             <div>{{form.profile_pic}}</div>
             <div class="nk-gap-2"></div>
