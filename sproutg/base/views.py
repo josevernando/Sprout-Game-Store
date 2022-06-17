@@ -187,8 +187,7 @@ def userProfile(request, userid):
 def devProfile(request, userid):
     extraContext = pageHeader(request, 'developer profile')
     user = User.objects.get(id=userid)
-    developer = Developer.objects.get(user=user)
-    games = developer.game_list.all()[:4]
+    games = Game.objects.filter (devUser=user)
     profile = Profile.objects.get(user=user)
     
     context = {'profile': profile, 

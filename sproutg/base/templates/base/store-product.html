@@ -75,8 +75,12 @@
 							<!-- END: Add to Cart -->
 							<!-- START: Meta -->
 							<div class="nk-product-meta">
-								<div><strong>Publisher</strong>: {{game.publisher}}</div>
-								<div><strong>Genres</strong>: <a href="#">{{game.genres.first}}</a>{% for genre in game.genres.all|slice:"1:" %}, <a href="#">{{genre.name}}</a>{% endfor %} </div>
+								<div>
+									<strong>Developer</strong>: <a href="{% url 'profile-dev' game.devUser.id  %}">{{game.devUser.developer.developer_name}}</a></div>
+								<div>
+									<strong>Publisher</strong>: {{game.publisher}}</div>
+								<div>
+									<strong>Genres</strong>: <a href="#">{{game.genres.first}}</a>{% for genre in game.genres.all|slice:"1:" %}, <a href="#">{{genre.name}}</a>{% endfor %} </div>
 							</div>
 							<!-- END: Meta -->
 						</div>

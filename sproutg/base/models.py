@@ -1,3 +1,4 @@
+from pyexpat import model
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -25,6 +26,7 @@ class Game(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(null=True)
     genres = models.ManyToManyField(Genre, related_name='genres', blank=True)
+    devUser = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     publisher = models.CharField(max_length=200)
     price = models.FloatField(null=True)
     verified = models.BooleanField(default=False)
@@ -47,18 +49,25 @@ class Customer(models.Model):
     
 class Developer(models.Model):
     developer_name = models.CharField(max_length=200)
-    
-    game_list = models.ManyToManyField(Game, related_name='game_list', blank=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True)
   
     def __str__(self):
         return self.developer_name
 
+
+class Approval(models.Model):
+    subject = models.CharField(max_length=150)
+    message = models.CharField(max_length=150)
+    approved = models.BooleanField(blank=True)
+    game = models.OneToOneField(Game, on_delete=models.CASCADE, null=True)
+    developer = models.ForeignKey(Developer, on_delete=models.CASCADE, null=True)
+  
   
 class Review(models.Model):
     title = models.CharField(max_length=200)
     body = models.TextField()
-    stars = ('0', '1', '2', '3', '4', '5')
+    star_choices = ((f"{x/2}",f"{x/2}")for x in range(11))
+    star_rating = models.CharField(max_length=3,choices=star_choices,default=2.5)
     
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
