@@ -1,5 +1,3 @@
-from multiprocessing import context
-from tokenize import group
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -10,20 +8,9 @@ from django.shortcuts import render, redirect
 from .models import Developer, Genre, Review, Game, Customer, Profile
 from .forms import SignUpForm, ProfileForm, ReviewForm
 from .decorators import unauthenticated_user, allowed_users
+from .addsFunctions import overallStar, pageHeader
 
 # Create your views here.
-
-def pageHeader(request, page):
-    user = request.user 
-    userGroups = [x.name for x in user.groups.all()] if user.groups != None else None
-    crumbs = (request.path).split('/')[1:-1]
-    extraContext = {'curUser': user,
-                    'userGroups': userGroups,
-                    'crumbs': crumbs,
-                    'page': page}
-    
-    return extraContext
-
 @unauthenticated_user
 def loginUser(request):
     if request.method == 'POST':
@@ -104,6 +91,7 @@ def storeProduct(request, pk):
     genres = Genre.objects.all()
     reviews = Review.objects.filter(game=game) 
     highlights = Game.objects.all()[:3]
+    stars = overallStar(game)
     form = ReviewForm()
     
     if request.method == 'POST':
@@ -118,7 +106,8 @@ def storeProduct(request, pk):
                'genres': genres, 
                'highlights': highlights, 
                'reviews': reviews, 
-               'form': form} | extraContext
+               'form': form,
+               'stars': stars} | extraContext
     
     return render(request=request, template_name='base/store-product.html', context=context)
 
