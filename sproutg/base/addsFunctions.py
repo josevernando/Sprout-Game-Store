@@ -5,13 +5,18 @@ def overallStar(game):
     ratings = [s.star_rating for s in Review.objects.filter(game=game)]
     starsum = 0
     
-    for x in ratings:
-        starsum += float(x)
-    overall_rating = starsum/len(ratings)
-    
-    fullStars = floor(overall_rating)
-    halfStar = (overall_rating % fullStars) >= 0.5
-    fullStars = range(fullStars)
+    if len(ratings) != 0:
+        for x in ratings:
+            starsum += float(x)
+        overall_rating = starsum/len(ratings)
+        
+        fullStars = floor(overall_rating)
+        halfStar = (overall_rating % fullStars) >= 0.5
+        fullStars = range(fullStars)
+    else:
+        fullStars = None
+        halfStar = False
+
     
     return fullStars, halfStar 
     
