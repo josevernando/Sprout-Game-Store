@@ -17,4 +17,5 @@ urlpatterns = [
     path('about/', views.about, name="about"),
     path('register/dev/', views.registerDev, name="register-dev"),
     path('profile/dev/<str:userid>/', views.devProfile, name="profile-dev"),
+    path('product/<str:productid>/delete-review/<str:reviewid>', views.deleteReview, name="delete-review"),
 ]

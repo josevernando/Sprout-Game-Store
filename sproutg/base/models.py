@@ -74,6 +74,9 @@ class Review(models.Model):
     
     profile = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
     game = models.ForeignKey(Game, on_delete=models.SET_NULL, null=True)
+    
+    class Meta:
+        ordering = ['-updated', '-created']
   
     def __str__(self):
         return f"{self.profile.user.username} | {self.star_rating} | {self.game.name}"

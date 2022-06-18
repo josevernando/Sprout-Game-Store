@@ -111,7 +111,8 @@ class ReviewForm(ModelForm):
                 'name': 'full_name', 
                 'maxlength': '200',
                 'class': 'required form-control',
-                'placeholder': 'Review Title'
+                'placeholder': 'Review Title',
+                'autocomplete': 'off'
             }
         )
         self.fields['body'].widget.attrs.update({
@@ -119,7 +120,8 @@ class ReviewForm(ModelForm):
                 'cols': '40', 
                 'rows': '6',
                 'class': 'required form-control',
-                'placeholder': 'Leave a Review'
+                'placeholder': 'Leave a Review',
+                'autocomplete': 'off'
             }   
         )
         

@@ -90,12 +90,8 @@ def store(request):
 
 def storeProduct(request, pk):
     extraContext = pageHeader(request, 'product')
-    game = Game.objects.get(id=pk)
-    genres = Genre.objects.all()
-    reviews = Review.objects.filter(game=game) 
-    highlights = Game.objects.all()[:3]
-    stars = overallStar(game)
     form = ReviewForm()
+    game = Game.objects.get(id=pk)
     
     if request.method == 'POST':
         form = ReviewForm(request.POST)
@@ -104,17 +100,32 @@ def storeProduct(request, pk):
             review.profile = extraContext['curUser'].profile
             review.game = game
             review.star_rating = request.POST.get('star_rating')
-            print("\n\n", review.star_rating)
             review.save()
 
+    genres = Genre.objects.all()
+    reviews = Review.objects.filter(game=game)
+    highlights = Game.objects.all()[:3]
+    stars = overallStar(game)
+    try:
+        curReview = Review.objects.get(game=game, profile=request.user.profile)
+    except Review.DoesNotExist:
+        curReview = None
+        
     context = {'game': game, 
                'genres': genres, 
                'highlights': highlights, 
                'reviews': reviews, 
                'form': form,
-               'stars': stars} | extraContext
+               'stars': stars,
+               'curReview': curReview} | extraContext
     
     return render(request=request, template_name='base/store-product.html', context=context)
+
+def deleteReview(request, productid, reviewid):
+    review = Review.objects.get(id=reviewid)
+    review.delete()
+    
+    return redirect('store-product', productid)
 
 def storeCart(request):
     extraContext = pageHeader(request, 'cart')
@@ -200,7 +211,8 @@ def userProfileEdit(request):
         if form.is_valid:
             profile = form.save()
             
-            return redirect('profile', request.user.id)
+            url = 'profile' if 'customer' in extraContext['userGroups'] else 'profile-dev'
+            return redirect(url, request.user.id)
         else:
             messages.error(request, 'An error has occured during registration')
     
