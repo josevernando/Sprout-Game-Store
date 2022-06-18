@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib import messages
 from django.db.models import Q
 
@@ -33,14 +33,17 @@ def logoutUser(request):
     logout(request)
     return redirect('store')
 
-def userCreator(request, group='customer'):
+def userCreator(request, group_name='customer'):
     valid = False
     user = None
     if (request.method == 'POST'):
         form = SignUpForm(request.POST)
         if form.is_valid:
             user = form.save()
-            if group == 'customer':
+            group = Group.objects.get(name=group_name)
+            group.user_set.add(user)
+            Profile.objects.create(user=user)
+            if group_name == 'customer':
                 Customer.objects.create(user=user)
             else:
                 Developer.objects.create(user=user)
@@ -57,7 +60,7 @@ def registerUser(request):
     context = {'form': form, 'group': group}
     if valid:
         login(request, user)
-        return redirect('profile-edit', request.user.id)
+        return redirect('profile-edit')
     else:
         return render(request, template_name='base/register_page.html', context=context)
 
@@ -69,7 +72,7 @@ def registerDev(request):
     context = {'form': form, 'group': group}
     if valid:
         login(request, user)
-        return redirect('profile-edit', request.user.id)
+        return redirect('profile-edit')
     else:
         return render(request, template_name='base/register_page.html', context=context)
 
@@ -100,6 +103,8 @@ def storeProduct(request, pk):
             review = form.save(commit=False)
             review.profile = extraContext['curUser'].profile
             review.game = game
+            review.star_rating = request.POST.get('star_rating')
+            print("\n\n", review.star_rating)
             review.save()
 
     context = {'game': game, 
@@ -186,12 +191,12 @@ def devProfile(request, userid):
 
 @login_required(login_url='/login')
 def userProfileEdit(request):
-    Profile.objects.get_or_create(user=request.user)
     extraContext = pageHeader(request, 'edit profile')
-    form = ProfileForm(instance=extraContext['curUser'].profile)
+    profile = extraContext['curUser'].profile
+    form = ProfileForm(instance=profile)
     
     if request.method == 'POST':
-        form = ProfileForm(request.POST, request.FILES, instance=extraContext['curUser'].profile)
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid:
             profile = form.save()
             

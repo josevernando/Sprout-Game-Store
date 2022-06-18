@@ -10,7 +10,7 @@ def overallStar(game):
     overall_rating = starsum/len(ratings)
     
     fullStars = floor(overall_rating)
-    halfStar = (overall_rating//fullStars) >= 0.5
+    halfStar = (overall_rating % fullStars) >= 0.5
     fullStars = range(fullStars)
     
     return fullStars, halfStar 

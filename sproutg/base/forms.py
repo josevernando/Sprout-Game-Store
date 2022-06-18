@@ -2,6 +2,7 @@ from .models import Profile, Review
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm
+from django import forms
 
 class SignUpForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
@@ -52,6 +53,7 @@ class SignUpForm(UserCreationForm):
         model = User
         fields = ['username', 'email' ,'password1', 'password2']
         
+        
 class ProfileForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -90,7 +92,6 @@ class ProfileForm(ModelForm):
                 'class': 'form-control'
             }
         )
-       
     
     class Meta:
         model = Profile
@@ -99,6 +100,7 @@ class ProfileForm(ModelForm):
     def getAllExceptPic(self):
         print(self.fields['profile_pic'])
         return [self['full_name'],self['birth_date'],self['description']]
+
 
 class ReviewForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -120,8 +122,7 @@ class ReviewForm(ModelForm):
                 'placeholder': 'Leave a Review'
             }   
         )
-       
-    
+        
     class Meta:
         model = Review
         fields = ['title', 'body']

@@ -66,8 +66,8 @@ class Approval(models.Model):
 class Review(models.Model):
     title = models.CharField(max_length=200)
     body = models.TextField()
-    star_choices = ((f"{x/2}",f"{x/2}")for x in range(11))
-    star_rating = models.CharField(max_length=3,choices=star_choices,default=2.5)
+    star_choices = ((f'{x}', f'{x}')for x in range(1,6))
+    star_rating = models.CharField(max_length=1,choices=star_choices,default=3)
     
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
@@ -76,8 +76,11 @@ class Review(models.Model):
     game = models.ForeignKey(Game, on_delete=models.SET_NULL, null=True)
   
     def __str__(self):
-        return self.title
+        return f"{self.profile.user.username} | {self.star_rating} | {self.game.name}"
     
+    def loopStars(self):
+        return range(int(self.star_rating))
+
     
 class Transaction(models.Model):
     name = models.CharField(max_length=200)
