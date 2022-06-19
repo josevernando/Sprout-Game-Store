@@ -1,3 +1,4 @@
+from multiprocessing import context
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
@@ -219,6 +220,13 @@ def userProfileEdit(request):
     context = {'form': form} | extraContext
     
     return render(request=request, template_name='base/profile-edit.html', context=context)
+
+def devDashboard(request):
+    extraContext = pageHeader(request, 'dashboard')
+    
+    context = {} | extraContext
+    
+    return render(request=request, template_name='base/dashboard-dev.html', context=context)
 
 def about(request):
     extraContext = pageHeader(request, 'developer profile')
