@@ -1,5 +1,4 @@
-from pyexpat import model
-from .models import Game, Profile, Review, Developer
+from .models import Game, Profile, Review, Genre
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm
@@ -132,6 +131,10 @@ class ReviewForm(ModelForm):
 
 
 class GameForm(ModelForm):
+    class Meta:
+        model = Game
+        fields = ['name', 'genres', 'publisher', 'price','description']
+        
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         
@@ -164,11 +167,6 @@ class GameForm(ModelForm):
                 'maxlength': '200',
                 'id': 'description',
                 'class': 'form-control',
-                'col': '4'
+                'rows': '4'
             }
         )
-        
-    class Meta:
-        model = Game
-        fields = ['name', 'genres', 'publisher', 'price','description']
-        

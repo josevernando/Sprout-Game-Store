@@ -64,8 +64,8 @@ def registerUser(request):
     else:
         return render(request, template_name='base/register_page.html', context=context)
 
-@unauthenticated_user
 def registerDev(request):
+    logoutUser(request)
     form = SignUpForm()
     group = 'developer'
     user, valid = userCreator(request, group)
@@ -79,7 +79,8 @@ def registerDev(request):
 def store(request):
     extraContext = pageHeader(request, 'home')
     q = request.GET.get('q') if request.GET.get('q') != None else ''
-    games = Game.objects.filter(Q(name__icontains=q)|Q(genres__name__icontains=q))
+    # games = Game.objects.filter(Q(name__icontains=q)|Q(genres__name__icontains=q))
+    games = Game.objects.all()
     genres = Genre.objects.all()
     
     context = {'games': games, 
@@ -121,12 +122,16 @@ def storeProduct(request, pk):
     
     return render(request=request, template_name='base/store-product.html', context=context)
 
+@login_required(login_url='/login')
+@allowed_users(['customer', 'admin'])
 def deleteReview(request, productid, reviewid):
     review = Review.objects.get(id=reviewid)
     review.delete()
     
     return redirect('store-product', productid)
 
+@login_required(login_url='/login')
+@allowed_users(['customer'])
 def storeCart(request):
     extraContext = pageHeader(request, 'cart')
     userCustomer = Customer.objects.get(user=request.user)
@@ -144,6 +149,7 @@ def storeSearch(request):
     return render(request=request, template_name='base/store-search.html', context=context)
 
 @login_required(login_url='/login')
+@allowed_users(['customer'])
 def addToList(request, gameList, gameid):
     customer = Customer.objects.get(user=request.user)
     game = Game.objects.get(id=gameid)
@@ -156,6 +162,7 @@ def addToList(request, gameList, gameid):
     return redirect(gameList);
 
 @login_required(login_url='/login')
+@allowed_users(['customer'])
 def removeFromList(request, gameList, gameid):
     customer = Customer.objects.get(user=request.user)
     game = Game.objects.get(id=gameid)
@@ -225,20 +232,25 @@ def userProfileEdit(request):
     
     return render(request=request, template_name='base/profile-edit.html', context=context)
 
+@login_required(login_url='/login')
+@allowed_users(['developer'])
 def devDashboard(request):
     extraContext = pageHeader(request, 'dashboard')
     user = extraContext['curUser']
     profile = Profile.objects.get(user=user)
     games = Game.objects.filter (devUser=user)
     form = GameForm()
+    genres = Genre.objects.all()
     
     if request.method == 'POST':
         form = GameForm(request.POST, request.FILES)
         if form.is_valid:
             newGame = form.save(commit=False)
             newGame.devUser = user
-            
+            inputGenres = request.POST.getlist('genres')
             newGame.save()
+            for x in inputGenres:
+                newGame.genres.add(x)
             
             return redirect(request.path_info)
         else:
@@ -246,9 +258,18 @@ def devDashboard(request):
     
     context = { 'form': form,
                 'profile': profile, 
-                'games': games} | extraContext
+                'games': games,
+                'genres': genres} | extraContext
     
     return render(request=request, template_name='base/dashboard-dev.html', context=context)
+
+@login_required(login_url='/login')
+@allowed_users(['developer'])
+def deleteGame(request, gameid):
+    review = Game.objects.get(id=gameid)
+    review.delete()
+    
+    return redirect(request.path_info)
 
 def about(request):
     extraContext = pageHeader(request, 'developer profile')

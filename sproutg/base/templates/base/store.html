@@ -14,7 +14,7 @@
         <img src="{% static 'assets/images/slide-1.jpg' %}" alt="" class="nk-image-slider-img" data-thumb="{% static 'assets/images/slide-1-thumb.jpg' %}">
         <div class="nk-image-slider-content">
           <h3 class="h4">{{game.name}}</h3>
-          <p class="text-white">{{game.description}}</p>
+          <p class="text-white">{{game.description|slice:":140"}}</p>
           <a href="{% url 'store-product' game.id %}" class="nk-btn nk-btn-rounded nk-btn-color-white nk-btn-hover-color-main-1">Read More</a>
         </div>
       </div>

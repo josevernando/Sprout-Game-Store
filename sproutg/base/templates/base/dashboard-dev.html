@@ -21,13 +21,14 @@
             <div class="col-lg-9 col-md-9">
               <h1 class="text-main-1">{{profile.user.developer.developer_name}}</h1>
               <h3>{{profile.user.username}}</h3>
+							<p><strong>{{profile.full_name}}</strong></p>
               <p>Joined on, {{profile.user.date_joined}}</p>
               {% if curUser == profile.user %}
               <a href="{% url 'profile-edit' %}" class="nk-btn nk-btn-sm nk-btn-rounded nk-btn-color-white">Edit Profile</a>
               {% endif %}
             </div>
           </div>
-          <div class="row">
+          <div>
             <h3>About Us</h3>
             <p class="text-white">{{profile.description}}</p>
           </div>
@@ -67,7 +68,7 @@
 												<img src="{% static 'assets/images/post-1-sm.jpg' %}" alt="Smell magic in the air. Or maybe barbecue">
 											</div>
 											<img src="{% static 'assets/images/post-1.jpg' %}" alt="Smell magic in the air. Or maybe barbecue" class="nk-news-box-item-full-img">
-											<h3 class="nk-news-box-item-title">{{game.name}}</h3>
+											<h3 class="nk-news-box-item-title"><a href="{% url 'store-product' game.id %}" class="text-white">{{game.name}}</a></h3>
 											<span class="nk-news-box-item-categories">
 											{% if game.verified %}
 											<span class="bg-main-1">Verified</span>
@@ -81,8 +82,7 @@
 													<strong>Genres</strong>: <a href="#">{{game.genres.first}}</a>{% for genre in game.genres.all|slice:"1:" %}, <a href="#">{{genre.name}}</a>{% endfor %} 
 												</div>
 											</div>
-											<a href="{% url 'store-product' game.id %}" class="nk-news-box-item-url">View In Store</a>
-											<a href="{% url 'store-product' game.id %}" class="nk-news-box-item-url">Edit</a>
+											<a href="{% url 'store' %}" class="nk-news-box-item-url">Update</a>
 											<div class="nk-news-box-item-date"><span class="fa fa-calendar"></span> {{game.created|date:"F d, Y"}}</div>
 										</div>
 										{% endfor %}
@@ -103,8 +103,6 @@
                     <div class="nk-news-box-item-text">
                       <p>With what mingled joy and sorrow do I take up the pen to write to my dearest friend! Oh, what a change between to-day and yesterday! Now I am friendless and alone...</p>
                     </div>
-                    <a href="blog-article.html" class="nk-news-box-item-more">View in Store</a>
-                    <span class="mx-1"></span>
                     <a href="blog-article.html" class="nk-news-box-item-more">Update</a>
                     <div class="nk-news-box-item-date">
                       <span class="fa fa-calendar"></span> Sep 18, 2018
@@ -121,27 +119,39 @@
             <form method="POST" class="nk-form" novalidate="novalidate" enctype="multipart/form-data">
               {% csrf_token %}
 							<div class="row vertical-gap">
-                <div class="col-lg-6">
+                <div class="col-lg-6 col-md-12">
                   <div class="nk-gap-1"></div>
                   <label for="name">Game Title <span class="text-main-1">*</span>:</label>
                   {{form.name}}
 									<div class="nk-gap-1"></div>
                   <div class="row vertical-gap">
                     <div class="col-sm-6">
-                      <label for="name">Price <span class="text-main-1">*</span>:</label>
+                      <label for="price">Price <span class="text-main-1">*</span>:</label>
                       {{form.price}}
                     </div>
                     <div class="col-sm-6">
-                      <label for="price">Publisher <span class="text-main-1">*</span>:</label>
+                      <label for="publisher">Publisher <span class="text-main-1">*</span>:</label>
                       {{form.publisher}}
                     </div>
                   </div>
                   <div class="nk-gap-1"></div>
-                  <label for="country-sel">Genres <span class="text-main-1">*</span>:</label>
-                  {{form.genres}}
+                  <label for="genres">Genres <span class="text-main-1">*</span>:</label>
+                  <div class="nano" style="height: 100px; border: 1px solid #303E47;">
+										<div class="nano-content "  id="genres" style="padding: 6.5px 10px;">
+											{% for genre in genres %}
+											<div>
+  											<input type="checkbox" name="genres" value="{{ genre.id }}" id="opt_{{genre.id}}"/>
+												<label  for="opt_{{genre.id}}">{{genre.name}}</label>
+											</div>
+											{% endfor %}
+										</div>
+									</div>
+									<div class="nk-gap-1"></div>
                 </div>
-                <div class="col-lg-6">
-                  <label for="address">Description <span class="text-main-1">*</span>:</label>
+
+                <div class="col-lg-6 col-md-12">
+									<div class="nk-gap-1"></div>
+                  <label for="description">Description <span class="text-main-1">*</span>:</label>
                   {{form.description}}
                   <div class="nk-gap-1"></div>
 									<input type="file" name="game_file" id="game_file">

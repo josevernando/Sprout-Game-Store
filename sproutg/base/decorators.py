@@ -20,6 +20,6 @@ def allowed_users(allowed_roles=[]):
             if any(x.name in allowed_roles for x in group):
                 return view_func(request, *args, **kwargs)
             else:
-                return HttpResponse("Ain't Authorized" + group)
+                return redirect('store')
         return wrapper_func
     return decorator
