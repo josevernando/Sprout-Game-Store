@@ -59,25 +59,35 @@
 						<!--START: Game List-->
             <div class="nk-news-box">
               <div class="nk-news-box-list">
-                <div class="nano">
-                  <div class="nano-content">
-                    <div class="nk-news-box-item nk-news-box-item-active">
-                      <div class="nk-news-box-item-img">
-                        <img src="{% static 'assets/images/post-1-sm.jpg' %}" alt="Smell magic in the air. Or maybe barbecue">
-                      </div>
-                      <img src="{% static 'assets/images/post-1.jpg' %}" alt="Smell magic in the air. Or maybe barbecue" class="nk-news-box-item-full-img">
-                      <h3 class="nk-news-box-item-title">Smell magic in the air. Or maybe barbecue</h3>
-                      <span class="nk-news-box-item-categories">
-                      <span class="bg-main-4">MMO</span>
-                      </span>
-                      <div class="nk-news-box-item-text">
-                        <p>With what mingled joy and sorrow do I take up the pen to write to my dearest friend! Oh, what a change between to-day and yesterday! Now I am friendless and alone...</p>
-                      </div>
-                      <a href="blog-article.html" class="nk-news-box-item-url">Read More</a>
-                      <div class="nk-news-box-item-date"><span class="fa fa-calendar"></span> Sep 18, 2018</div>
-                    </div>
-                  </div>
-                </div>
+                <div class="nano-content">
+									{% for game in games %}
+									<div class="nk-news-box-item nk-news-box-item-active">
+										<div class="nk-news-box-item-img">
+											<img src="{% static 'assets/images/post-1-sm.jpg' %}" alt="Smell magic in the air. Or maybe barbecue">
+										</div>
+										<img src="{% static 'assets/images/post-1.jpg' %}" alt="Smell magic in the air. Or maybe barbecue" class="nk-news-box-item-full-img">
+										<h3 class="nk-news-box-item-title">{{game.name}}</h3>
+										<span class="nk-news-box-item-categories">
+										{% if game.verified %}
+										<span class="bg-main-1">Verified</span>
+										{% else %}
+										<span class="bg-main-6">Not Verfied</span>
+										{% endif %}
+										</span>
+										<div class="nk-news-box-item-text">
+											<div>
+											<p>{{game.description}}</p>
+											<strong>Genres</strong>: <a href="#">{{game.genres.first}}</a>{% for genre in game.genres.all|slice:"1:" %}, <a href="#">{{genre.name}}</a>{% endfor %} 
+											</div>
+										</div>
+										<a href="{% url 'store-product' game.id %}" class="nk-news-box-item-url">View In Store</a>
+										<a href="{% url 'store-product' game.id %}" class="nk-news-box-item-url">Edit</a>
+										<div class="nk-news-box-item-date"><span class="fa fa-calendar"></span> {{game.created|date:"F d, Y"}}</div>
+									</div>
+									{% endfor %}
+									
+							
+								</div>
               </div>
               <div class="nk-news-box-each-info">
                 <div class="nano">
@@ -93,7 +103,9 @@
                     <div class="nk-news-box-item-text">
                       <p>With what mingled joy and sorrow do I take up the pen to write to my dearest friend! Oh, what a change between to-day and yesterday! Now I am friendless and alone...</p>
                     </div>
-                    <a href="blog-article.html" class="nk-news-box-item-more">Read More</a>
+                    <a href="blog-article.html" class="nk-news-box-item-more">View in Store</a>
+										<span class="mx-1"></span>
+                    <a href="blog-article.html" class="nk-news-box-item-more">Update</a>
                     <div class="nk-news-box-item-date">
                       <span class="fa fa-calendar"></span> Sep 18, 2018
                     </div>
