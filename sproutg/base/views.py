@@ -6,7 +6,7 @@ from django.db.models import Q
 
 from django.shortcuts import render, redirect
 from .models import Developer, Genre, Review, Game, Customer, Profile
-from .forms import SignUpForm, ProfileForm, ReviewForm
+from .forms import SignUpForm, ProfileForm, ReviewForm, GameForm
 from .decorators import unauthenticated_user, allowed_users
 from .addsFunctions import overallStar, pageHeader
 
@@ -222,11 +222,26 @@ def userProfileEdit(request):
 
 def devDashboard(request):
     extraContext = pageHeader(request, 'dashboard')
-    profile = Profile.objects.get(user=request.user)
-    games = Game.objects.filter (devUser=request.user)
+    user = extraContext['curUser']
+    profile = Profile.objects.get(user=user)
+    games = Game.objects.filter (devUser=user)
+    form = GameForm()
     
-    context = {'profile': profile, 
-               'games': games} | extraContext
+    if request.method == 'POST':
+        form = GameForm(request.POST, request.FILES)
+        if form.is_valid:
+            newGame = form.save(commit=False)
+            newGame.devUser = user
+            
+            newGame.save()
+            
+            return redirect(request.path_info)
+        else:
+            messages.error(request, 'An error has occured during upload')
+    
+    context = { 'form': form,
+                'profile': profile, 
+                'games': games} | extraContext
     
     return render(request=request, template_name='base/dashboard-dev.html', context=context)
 

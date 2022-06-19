@@ -1,4 +1,4 @@
-from .models import Profile, Review
+from .models import Game, Profile, Review
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm
@@ -128,4 +128,45 @@ class ReviewForm(ModelForm):
     class Meta:
         model = Review
         fields = ['title', 'body']
+
+
+class GameForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         
+        self.fields['name'].widget.attrs.update({
+                'type': 'text', 
+                'name': 'name', 
+                'maxlength': '200',
+                'id': 'name',
+                'class': 'required form-control'
+            }
+        )
+        self.fields['publisher'].widget.attrs.update({
+                'type': 'text', 
+                'name': 'publisher', 
+                'maxlength': '200',
+                'id': 'publisher',
+                'class': 'required form-control'
+            }
+        )
+        self.fields['price'].widget.attrs.update({
+                'type': 'text', 
+                'name': 'price', 
+                'id': 'price',
+                'class': 'required form-control'
+            }
+        )
+        self.fields['description'].widget.attrs.update({
+                'type': 'textaewa', 
+                'name': 'description', 
+                'maxlength': '200',
+                'id': 'description',
+                'class': 'form-control',
+                'col': '4'
+            }
+        )
+        
+    class Meta:
+        model = Game
+        fields = ['name', 'genres', 'publisher', 'price','description']

@@ -53,15 +53,6 @@ class Developer(models.Model):
   
     def __str__(self):
         return self.developer_name
-
-
-class Approval(models.Model):
-    subject = models.CharField(max_length=150)
-    message = models.CharField(max_length=150)
-    approved = models.BooleanField(blank=True)
-    game = models.OneToOneField(Game, on_delete=models.CASCADE, null=True)
-    developer = models.ForeignKey(Developer, on_delete=models.CASCADE, null=True)
-  
   
 class Review(models.Model):
     title = models.CharField(max_length=200)
