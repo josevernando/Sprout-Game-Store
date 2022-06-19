@@ -223,8 +223,11 @@ def userProfileEdit(request):
 
 def devDashboard(request):
     extraContext = pageHeader(request, 'dashboard')
+    profile = Profile.objects.get(user=request.user)
+    games = Game.objects.filter (devUser=request.user)
     
-    context = {} | extraContext
+    context = {'profile': profile, 
+               'games': games} | extraContext
     
     return render(request=request, template_name='base/dashboard-dev.html', context=context)
 
