@@ -30,6 +30,10 @@
               <div class="nk-gap-1"></div>
 						</div>
 						{% endfor %}
+            {% if 'developer' in userGroups %}
+            <label for="developer_name">Developer Name</label>
+            <input type="text" maxlength="200" name="developer_name" class="required form-control" id="developer_name" required value="{{curUser.developer.developer_name}}">
+            {% endif %}
             <div class="nk-gap-2"></div>
             <input class="nk-btn nk-btn-rounded nk-btn-color-white nk-btn" type="submit" value="Save Profile" >
             <a href="{% url 'profile' curUser.id %}" class="ml-5 nk-btn nk-btn-rounded nk-btn-color-main-1">Cancel</a>

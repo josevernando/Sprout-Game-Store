@@ -1,4 +1,5 @@
-from .models import Game, Profile, Review
+from pyexpat import model
+from .models import Game, Profile, Review, Developer
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm
@@ -170,3 +171,4 @@ class GameForm(ModelForm):
     class Meta:
         model = Game
         fields = ['name', 'genres', 'publisher', 'price','description']
+        

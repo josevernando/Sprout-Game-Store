@@ -211,8 +211,13 @@ def userProfileEdit(request):
         if form.is_valid:
             profile = form.save()
             
-            url = 'profile' if 'customer' in extraContext['userGroups'] else 'profile-dev'
-            return redirect(url, request.user.id)
+            if 'developer' in extraContext['userGroups']:
+                developer = Developer.objects.get(user=request.user)
+                developer.developer_name = request.POST.get('developer_name')
+                developer.save()
+                return redirect('dashboard-dev')
+            else:
+                return redirect('profile', request.user.id)
         else:
             messages.error(request, 'An error has occured during registration')
     
