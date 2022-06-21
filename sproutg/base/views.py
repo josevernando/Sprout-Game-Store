@@ -1,3 +1,4 @@
+from multiprocessing import context
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
@@ -134,9 +135,10 @@ def deleteReview(request, productid, reviewid):
 def storeCart(request):
     extraContext = pageHeader(request, 'cart')
     userCustomer = Customer.objects.get(user=request.user)
-    cart = userCustomer.cart.all()    
+    cart = userCustomer.cart.all()
+    total = userCustomer.getTotalPrice()
     
-    context = {'cart': cart} | extraContext
+    context = {'cart': cart, 'total': total} | extraContext
     
     return render(request=request, template_name='base/cart.html', context=context)
 
@@ -287,3 +289,13 @@ def about(request):
     context = {'genres': genres} | extraContext
     
     return render(request=request, template_name='base/about.html', context=context)
+
+@login_required(login_url='/login')
+@allowed_users(['customer'])
+def buyGames(request):
+    userCustomer = Customer.objects.get(user=request.user)
+    cart = userCustomer.cart.all()
+    userCustomer.myGames.add(*cart)
+    userCustomer.cart.clear()
+    
+    return redirect('mygames')

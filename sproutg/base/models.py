@@ -70,6 +70,12 @@ class Customer(models.Model):
     def __str__(self):
         return self.user.username + "'s Customer Model"
     
+    def getTotalPrice(self):
+        prices = [float(x.price) for x in self.cart.all()]
+        total = sum(prices)
+        
+        return total
+        
     
 class Developer(models.Model):
     developer_name = models.CharField(max_length=200)

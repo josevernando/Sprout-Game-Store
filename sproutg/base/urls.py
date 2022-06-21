@@ -21,5 +21,6 @@ urlpatterns = [
     path('profile/dev/<str:userid>/', views.devProfile, name="profile-dev"),
     path('dashboard/', views.devDashboard, name="dashboard-dev"),
     path('dashboard/delete-game/<str:gameid>', views.deleteGame, name="delete-game"),
+    path('Chaching/', views.buyGames, name="buy-games")
     
 ]
