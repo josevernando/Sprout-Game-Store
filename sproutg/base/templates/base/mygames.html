@@ -2,54 +2,90 @@
 {% load static %}
 {% block content %}
 <main class="nk-main">
-  <div class="nk-gap-2"></div>
-  <div class="container">
-    <!-- START: Breadcrumbs -->
-    {% include 'base/breadcrumbs_component.html' %}
-    <!-- END: Breadcrumbs -->
+  <!-- START: Breadcrumbs -->
+  {% include 'base/breadcrumbs_component.html' %}
+  <!-- END: Breadcrumbs -->
+  <div class="nk-gap-1"></div>
+  <div class="container" >
     <div class="row vertical-gap">
-			<div class="col-lg-7">
-				<h3 class="text-main-1">Tabs</h3>
-				<div class="nk-gap"></div>
-				<!-- START: Tabs  -->
-				<div class="nk-tabs">
-						<!--
-								Additional Classes:
-										.nav-tabs-fill
-						-->
-						<ul class="nav nav-tabs" role="tablist">
-								<li class="nav-item">
-										<a class="nav-link" href="#tabs-1-1" role="tab" data-toggle="tab" aria-selected="false">Tab 1</a>
-								</li>
-								<li class="nav-item">
-										<a class="nav-link" href="#tabs-1-2" role="tab" data-toggle="tab" aria-selected="false">Tab 2</a>
-								</li>
-								<li class="nav-item">
-										<a class="nav-link active show" href="#tabs-1-3" role="tab" data-toggle="tab" aria-selected="true">Tab 3</a>
-								</li>
-						</ul>
-						<div class="tab-content">
-								<div role="tabpanel" class="tab-pane fade" id="tabs-1-1">
-										<div class="nk-gap"></div>
-										<p>I have related the substance of several conversations I had with my master during the greatest part of the time I had the, for brevity sake, omitted much moredown.</p>
-										<p>And she went on planning to herself how she would manage it. 'They must go by the carrier' she thought; and how funny it'll seem And she went on planning to herself how</p>
-										<div class="nk-gap"></div>
-								</div>
-								<div role="tabpanel" class="tab-pane fade" id="tabs-1-2">
-										<div class="nk-gap"></div>
-										<p>And she went on planning to herself how she would manage it. 'They must go by the carrier' she thought; and how funny it'll seem And she went on planning to herself how</p>
-										<div class="nk-gap"></div>
-								</div>
-								<div role="tabpanel" class="tab-pane fade active show" id="tabs-1-3">
-										<div class="nk-gap"></div>
-										<p>I have related the substance of several conversations I had with my master during the greatest part of the time I had the, for brevity sake, omitted much moredown.</p>
-										<div class="nk-gap"></div>
-								</div>
+			<div class="col-lg-4">
+				<aside class="nk-sidebar nk-sidebar-left nk-sidebar-sticky">
+					<div>
+						<div class="nk-widget">
+							<div class="nk-widget-content">
+								<form action="{% url 'store' %}" class="nk-form nk-form-style-1" novalidate="novalidate">
+									<div class="input-group">
+										<input name="q" type="text" class="form-control" placeholder="Search...">
+										<button class="nk-btn nk-btn-color-main-1"><span class="ion-search"></span></button>
+									</div>
+								</form>
+							</div>
 						</div>
-				</div>
-				<!-- END: Tabs -->
+						<div class="nk-widget nk-widget-highlighted" >
+							<h4 class="nk-widget-title"><span><span class="text-main-1">Game</span> Catalogue</span></h4>
+							<div class="nk-widget-content" >
+								<ul class="nav nav-tabs nk-widget-categories" role="tablist">
+									<li class="nav-item col-12 ">
+										<a class="nav-link active" href="#tabs-1-0" role="tab" data-toggle="tab">All Games</a>
+									</li>
+									{% for game in games %}
+									<li class="nav-item col-12">
+										<a class="nav-link" href="#tabs-1-{{game.id}}" role="tab" data-toggle="tab">{{game.name}}</a>
+									</li>
+									{% endfor %}
+								</ul>
+								<!-- <ul class="nk-widget-categories">
+									{% for game in games %}
+									<li><a href="{% url 'store'%}?q={{genre.name}}">{{genre.name}}</a></li>
+									{% endfor %}
+								</ul> -->
+							</div>
+						</div>
+					</div>
+				</aside>
 			</div>
-		</div>
+
+			<div class="col-lg-8">
+				<div class="tab-content">
+					<div role="tabpanel" class="tab-pane active show fade" id="tabs-1-0">
+            <div class="row vertical-gap ">
+							{% for game in games %}
+							<div class="col-md-4 col-sm-6">
+								<div class="nk-product-cat-2 justify-content-center">
+									<div class="nk-product-cont d-flex flex-column">
+										<a class="nk-product-image" href="{% url 'store-product' game.id %}">
+											<img src="{% static 'assets/images/product-7-md.jpg' %}" alt="With what mingled joy">
+										</a>
+										<div class="nk-gap-1"></div>
+										<a href="#" class="nk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-hover-color-main-1 row-reverse">Download</a>
+										<div class="nk-gap-1"></div>
+										<h3 class="nk-product-title h5"><a href="{% url 'store-product' game.id %}">{{game.name}}</a></h3>
+									</div>
+								</div>
+							</div>
+							{% endfor %}
+							
+							
+						</div>
+						
+          </div>
+          {% for game in games %}
+          <div role="tabpanel" class="tab-pane fade" id="tabs-1-{{game.id}}">
+						<div class="nk-blog-post nk-blog-post-border-bottom">
+							<a href="{% url 'store-product' game.id %}" class="nk-post-img">
+								<img src="{% static 'assets/images/post-2-fw.jpg' %}" alt="Grab your sword and fight the Horde">
+							</a>
+							<div class="nk-gap-1"></div>
+							<h2 class="nk-post-title h4"><a href="{% url 'store-product' game.id %}">{{game.name}}</a></h2>
+							<div class="nk-post-text">
+								<p>{{game.description	}}</p>
+							</div>
+						</div>
+          </div>
+          {% endfor %}
+        </div>
+			</div>
+    </div>
   </div>
 </main>
 {% endblock content %}

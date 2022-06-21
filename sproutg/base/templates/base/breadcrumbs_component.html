@@ -1,15 +1,15 @@
 {% load static %}
 <div class="nk-gap-1"></div>
-    <div class="container">
-       <ul class="nk-breadcrumbs">
-         <li>Home</li>
-         <li><span class="fa fa-angle-right"></span></li>
-         {% for crumb in crumbs %}
-         <li>{{crumb}}</li>
-         <li><span class="fa fa-angle-right"></span></li>
-         {% endfor %}
-          
-         <li><span>{{page}}</span></li>
-       </ul>
-    </div>
+<div class="container">
+   <ul class="nk-breadcrumbs">
+     <li>Home</li>
+     <li><span class="fa fa-angle-right"></span></li>
+     {% for crumb in crumbs %}
+     <li>{{crumb}}</li>
+     <li><span class="fa fa-angle-right"></span></li>
+     {% endfor %}
+      
+     <li><span>{{page}}</span></li>
+   </ul>
+</div>
 <div class="nk-gap-1"></div>
