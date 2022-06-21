@@ -14,9 +14,9 @@ urlpatterns = [
     path('search', views.storeSearch, name="search"),
     path('profile/<str:userid>', views.userProfile, name="profile"),
     path('profile/edit/', views.userProfileEdit, name="profile-edit"),
+    path('mygames/', views.mygames, name="mygames"),
     path('about/', views.about, name="about"),
     path('product/<str:productid>/delete-review/<str:reviewid>', views.deleteReview, name="delete-review"),
-    # Devs
     path('register/dev/', views.registerDev, name="register-dev"),
     path('profile/dev/<str:userid>/', views.devProfile, name="profile-dev"),
     path('dashboard/', views.devDashboard, name="dashboard-dev"),

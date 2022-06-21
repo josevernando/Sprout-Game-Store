@@ -184,6 +184,15 @@ def storeWishlist(request):
     
     return render(request=request, template_name='base/wishlist.html', context=context)
 
+def mygames(request):
+    extraContext = pageHeader(request, 'my games')
+    userCustomer = Customer.objects.get(user=request.user)
+    games = userCustomer.myGames.all()
+    
+    context = {'games': games} | extraContext
+    
+    return render(request=request, template_name='base/mygames.html', context=context)
+
 def userProfile(request, userid):
     extraContext = pageHeader(request, 'user profile')
     user = User.objects.get(id=userid)

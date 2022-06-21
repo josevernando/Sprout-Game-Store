@@ -30,6 +30,7 @@
         </div>
       </div>
       <div class="col-md-6">
+        {% if 'customer' in userGroups %}
         <div class="nk-widget">
           <h4 class="nk-widget-title"><span class="text-main-1">Become</span> A Developer</h4>
           <div class="nk-widget-content">
@@ -63,6 +64,7 @@
             <a href="{% url 'register-dev' %} " class="nk-btn nk-btn-rounded nk-btn-color-main-1">Create a Dev Account</a>
           </div>
         </div>
+        {% endif %}
       </div>
     </div>
     <div class="nk-gap-3"></div>
