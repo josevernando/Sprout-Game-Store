@@ -21,7 +21,7 @@
           {% if curUser.is_authenticated %}
             {% if 'customer' in userGroups %}
             <li>
-              <a href="elements.html">
+              <a href="{% url 'mygames' %}">
               My Games
               </a>
             </li>
