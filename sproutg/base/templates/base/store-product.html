@@ -139,14 +139,7 @@
 										<div class="nk-gap"></div>
 										<strong class="text-white">Customer Rating:</strong>
 										<div class="nk-gap"></div>
-										<div class="nk-product-rating"> 
-											{% for fullStars in stars.0 %}
-											<i class="fa fa-star"></i>
-											{% endfor %}
-											{% if stars.1 %}
-											<i class="fas fa-star-half"></i>
-											{% endif %}
-										</div>
+										{% include 'base/star-rating_component.html' %}
 										<div class="nk-gap"></div>
 									</div>
 								</div>
@@ -158,7 +151,7 @@
 								<!-- START: Reply -->
 								<h3 class="h4">{% if curReview != None %} Your Review {% else %} Add a Review {% endif %}</h3>
 								<div class="nk-reply">
-									{% if curUser.is_authenticated  %}
+									{% if curUser.is_authenticated and 'customer' in userGroups  %}
 
 										{% if curReview != None %}
 										<div class="nk-box-2 bg-dark-2 nk-comment">

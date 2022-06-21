@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect
 from .models import Developer, Genre, Review, Game, Customer, Profile
 from .forms import SignUpForm, ProfileForm, ReviewForm, GameForm
 from .decorators import unauthenticated_user, allowed_users
-from .addsFunctions import overallStar, pageHeader
+from .addsFunctions import pageHeader
 
 # Create your views here.
 @unauthenticated_user
@@ -80,7 +80,7 @@ def store(request):
     extraContext = pageHeader(request, 'home')
     q = request.GET.get('q') if request.GET.get('q') != None else ''
     # games = Game.objects.filter(Q(name__icontains=q)|Q(genres__name__icontains=q))
-    games = Game.objects.all()
+    games = Game.objects.filter(verified=True)
     genres = Genre.objects.all()
     
     context = {'games': games, 
@@ -106,7 +106,7 @@ def storeProduct(request, pk):
     genres = Genre.objects.all()
     reviews = Review.objects.filter(game=game)
     highlights = Game.objects.all()[:3]
-    stars = overallStar(game)
+
     try:
         curReview = Review.objects.get(game=game, profile=request.user.profile)
     except Review.DoesNotExist:
@@ -117,7 +117,6 @@ def storeProduct(request, pk):
                'highlights': highlights, 
                'reviews': reviews, 
                'form': form,
-               'stars': stars,
                'curReview': curReview} | extraContext
     
     return render(request=request, template_name='base/store-product.html', context=context)
@@ -159,7 +158,7 @@ def addToList(request, gameList, gameid):
     elif gameList == 'wishlist':
         customer.wishList.add(game)
     
-    return redirect(gameList);
+    return redirect('store');
 
 @login_required(login_url='/login')
 @allowed_users(['customer'])
@@ -175,6 +174,7 @@ def removeFromList(request, gameList, gameid):
     return redirect(gameList)
 
 @login_required(login_url='/login')
+@allowed_users(['customer'])
 def storeWishlist(request):
     extraContext = pageHeader(request, 'cart')
     customer = Customer.objects.get(user=request.user)

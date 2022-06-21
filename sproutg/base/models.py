@@ -1,4 +1,4 @@
-from pyexpat import model
+from math import floor
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -36,6 +36,30 @@ class Game(models.Model):
   
     def __str__(self):
         return self.name
+    
+    def getRatings(self):
+        ratings = [s.star_rating for s in Review.objects.filter(game=self)]
+        
+        return ratings
+    
+    def hasReviews(self):
+        ratings = self.getRatings()
+        
+        return len(ratings)>0
+        
+    def overallStar(self):
+        ratings = self.getRatings()
+        starsum = 0
+        
+        for x in ratings:
+            starsum += float(x)
+        overall_rating = starsum/len(ratings)
+        
+        fullStars = floor(overall_rating)
+        halfStar = (overall_rating % fullStars) >= 0.5
+        fullStars = range(fullStars)
+        
+        return fullStars, halfStar
     
 class Customer(models.Model):
     cart = models.ManyToManyField(Game, related_name='cart', blank=True)

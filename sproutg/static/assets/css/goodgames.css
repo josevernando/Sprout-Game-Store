@@ -5191,13 +5191,13 @@ img.rounded {
 
 .nk-btn-color-main-1 {
     background-color: #54bf23;
-    border-color: #a5102c;
+    border-color: #68d437;
     border-style: solid;
 }
 
 .nk-btn-color-main-1:hover, .nk-btn-color-main-1.hover {
-    background-color: #eb3154;
-    border-color: #ee526f;
+    background-color: #70C947;
+    border-color: #85d75f;
 }
 
 .nk-btn-color-main-1:active, .nk-btn-color-main-1.active {
@@ -6949,7 +6949,7 @@ img.rounded {
     bottom: 0;
     left: 0;
     color: #fff;
-    background-color: rgba(221, 22, 59, 0.75);
+    background-color: rgba(67, 161, 47, 0.75);
     opacity: 0;
     -webkit-transition: .2s opacity;
     -o-transition: .2s opacity;
