@@ -85,7 +85,7 @@
 								<div>
 									<strong>Publisher</strong>: {{game.publisher}}</div>
 								<div>
-									<strong>Genres</strong>: <a href="#">{{game.genres.first}}</a>{% for genre in game.genres.all|slice:"1:" %}, <a href="#">{{genre.name}}</a>{% endfor %} </div>
+									<strong>Genres</strong>: <a href="{% url 'store-search'%}?q={{genre.name}}">{{game.genres.first}}</a>{% for genre in game.genres.all|slice:"1:" %}, <a href="{% url 'store-search'%}?q={{genre.name}}">{{genre.name}}</a>{% endfor %} </div>
 							</div>
 							<!-- END: Meta -->
 						</div>

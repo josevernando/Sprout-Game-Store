@@ -24,7 +24,7 @@
       <div class="nk-widget-content">
         <ul class="nk-widget-categories">
           {% for genre in genres %}
-          <li><a href="{% url 'store'%}?q={{genre.name}}">{{genre.name}}</a></li>
+          <li><a href="{% url 'store-search'%}?q={{genre.name}}">{{genre.name}}</a></li>
           {% endfor %}
         </ul>
       </div>
