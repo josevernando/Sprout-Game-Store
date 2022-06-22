@@ -22,7 +22,8 @@ urlpatterns = [
     path('dashboard/', views.devDashboard, name="dashboard-dev"),
     path('dashboard/delete-game/<str:gameid>', views.deleteGame, name="delete-game"),
     path('chaching/', views.buyGames, name="buy-games"),
-    path('dashboard-admin/', views.devDashboard, name="dashboard-admin"),
+    path('dashboard-admin/', views.adminDashboard, name="dashboard-admin"),
+    path('jempol/<str:gameid>', views.jempol, name="jempol"),
     
     
 ]

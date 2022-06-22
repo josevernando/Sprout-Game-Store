@@ -302,9 +302,19 @@ def buyGames(request):
     return redirect('mygames')
 
 @login_required(login_url='/login')
+@allowed_users(['admin'])
 def adminDashboard(request):
     extraContext = pageHeader(request, 'Admin Dashboard')
     submittedGames = Game.objects.filter(verified = False)
     context = {'submittedGames': submittedGames} | extraContext
     
-    return render(request=request, template_name='base/dashboard-admin.html', context=context) 
+    return render(request=request, template_name='base/dashboard-admin.html', context=context)
+
+@login_required(login_url='/login')
+@allowed_users(['admin'])
+def jempol(request, gameid):
+    game = Game.objects.get(id=gameid)
+    game.verified = True
+    game.save()
+    
+    return redirect('dashboard-admin')
