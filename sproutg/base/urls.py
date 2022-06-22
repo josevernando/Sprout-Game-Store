@@ -24,6 +24,7 @@ urlpatterns = [
     path('chaching/', views.buyGames, name="buy-games"),
     path('dashboard-admin/', views.adminDashboard, name="dashboard-admin"),
     path('jempol/<str:gameid>', views.jempol, name="jempol"),
+    path('search/', views.storeSearch, name="store-search"),
     
     
 ]

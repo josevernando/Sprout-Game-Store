@@ -145,10 +145,16 @@ def storeCart(request):
 
 def storeSearch(request):
     extraContext = pageHeader(request, 'search')
-    games = Game.objects.all()
-
-    context = {'games': games} | extraContext
-    return render(request=request, template_name='base/store-search.html', context=context)
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
+    searchGames = Game.objects.filter(Q(name__icontains=q)|Q(genres__name__icontains=q))
+    games = searchGames.filter(verified=True)
+    genres = Genre.objects.all()
+    
+    context = {'games': games, 
+               'genres': genres, 
+               'highlights': games[:10]} | extraContext
+    
+    return render(request=request, template_name='base/store.html', context=context)
 
 @login_required(login_url='/login')
 @allowed_users(['customer'])
