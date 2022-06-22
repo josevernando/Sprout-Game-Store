@@ -26,6 +26,7 @@ def loginUser(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+            
             return redirect ('store')
         
     return render(request, 'base/login_page.html')
@@ -299,3 +300,11 @@ def buyGames(request):
     userCustomer.cart.clear()
     
     return redirect('mygames')
+
+@login_required(login_url='/login')
+def adminDashboard(request):
+    extraContext = pageHeader(request, 'Admin Dashboard')
+    submittedGames = Game.objects.filter(verified = False)
+    context = {'submittedGames': submittedGames} | extraContext
+    
+    return render(request=request, template_name='base/dashboard-admin.html', context=context) 
