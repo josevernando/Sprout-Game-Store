@@ -154,7 +154,7 @@ def storeSearch(request):
                'genres': genres, 
                'highlights': games[:10]} | extraContext
     
-    return render(request=request, template_name='base/store.html', context=context)
+    return render(request=request, template_name='base/store-search.html', context=context)
 
 @login_required(login_url='/login')
 @allowed_users(['customer'])
