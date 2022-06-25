@@ -56,14 +56,14 @@
               <div class="nk-gap-1"></div>
               <div class="d-flex">
                 {% if game in curUser.customer.myGames.all %}
-                <a href="{% url 'mygames' %}" class="nk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-hover-color-main-1">Open My Games</a>
-                {% else %}
-                <a href="{% url 'addToList' 'wishlist' game.id %}" class="nk-btn nk-btn-sm nk-btn-rounded nk-btn-color-white nk-btn-hover-color-main-1 ">
-                  <img src="{% static 'assets/images/heart-icon.png'%}" class="pict-icon" alt="">
-                </a>
-                <span class="mx-1"></span>
-                <a href="{% url 'addToList' 'cart' game.id %}" class="nk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-hover-color-main-1">Add to Cart</a>
-                {% endif %}
+                  <a href="{% url 'mygames' %}" class="nk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-hover-color-main-1">Open My Games</a>
+                  {% else %}
+                  <a href="{% url 'addToList' 'wishlist' game.id %}" class="nk-btn nk-btn-sm nk-btn-rounded nk-btn-color-white px-2">
+                    <img src="{% static 'assets/images/heart-icon.png'%}" class="pict-icon" alt="">
+                  </a>
+                  <span class="mx-1"></span>
+                  <a href="{% url 'addToList' 'cart' game.id %}" class="nk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-hover-color-main-1">Add to Cart</a>
+                  {% endif %}
               </div>
             </div>
           </div>

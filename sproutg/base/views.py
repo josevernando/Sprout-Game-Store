@@ -258,6 +258,7 @@ def devDashboard(request):
     user = extraContext['curUser']
     profile = Profile.objects.get(user=user)
     games = Game.objects.filter (devUser=user)
+    pending = games.filter(verified=False)
     form = GameForm()
     genres = Genre.objects.all()
     
@@ -278,7 +279,8 @@ def devDashboard(request):
     context = { 'form': form,
                 'profile': profile, 
                 'games': games,
-                'genres': genres} | extraContext
+                'genres': genres,
+                'pending': pending} | extraContext
     
     return render(request=request, template_name='base/dashboard-dev.html', context=context)
 
