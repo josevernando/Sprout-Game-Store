@@ -21,7 +21,7 @@
           <img src="{% static 'assets/images/product-1-xs.jpg' %}" alt="{{game.name}}">
           </a>
           <h3 class="nk-post-title"><a href="store-product.html">{{game.name}}</a></h3>
-          <div class="nk-product-rating" data-rating="4"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="far fa-star"></i></div>
+          {% include 'base/star-rating_component.html' %}
           <div class="nk-product-price">Rp.{{game.price}}</div>
         </div>
         {% endfor %}

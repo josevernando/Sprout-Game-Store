@@ -1,12 +1,4 @@
 {% load static %}
-<!--
-  START: Sidebar
-  
-  Additional Classes:
-      .nk-sidebar-left
-      .nk-sidebar-right
-      .nk-sidebar-sticky
-  -->
 <aside class="nk-sidebar nk-sidebar-right nk-sidebar-sticky">
   <div>
     <div class="nk-widget">
@@ -19,16 +11,7 @@
         </form>
       </div>
     </div>
-    <div class="nk-widget nk-widget-highlighted">
-      <h4 class="nk-widget-title"><span><span class="text-main-1">Category</span> Menu</span></h4>
-      <div class="nk-widget-content">
-        <ul class="nk-widget-categories">
-          {% for genre in genres %}
-          <li><a href="{% url 'store-search'%}?q={{genre.name}}">{{genre.name}}</a></li>
-          {% endfor %}
-        </ul>
-      </div>
-    </div>
+    {% include 'base/sidebar-categories_component.html' %}
     <div class="nk-widget nk-widget-highlighted">
       <h4 class="nk-widget-title"><span><span class="text-main-1">We</span> Are Social</span></h4>
       <div class="nk-widget-content">
@@ -53,7 +36,7 @@
           <img src="{% static 'assets/images/product-1-xs.jpg' %}" alt="{{game.name}}">
           </a>
           <h3 class="nk-post-title"><a href="store-product.html">{{game.name}}</a></h3>
-          <div class="nk-product-rating" data-rating="4"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="far fa-star"></i></div>
+          {% include 'base/star-rating_component.html' %}
           <div class="nk-product-price">Rp.{{game.price}}</div>
         </div>
         {% endfor %}
