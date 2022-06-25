@@ -152,7 +152,8 @@ def storeSearch(request):
     
     context = {'games': games, 
                'genres': genres, 
-               'highlights': games[:10]} | extraContext
+               'highlights': games[:10],
+               'searchQuerry': q} | extraContext
     
     return render(request=request, template_name='base/store-search.html', context=context)
 
