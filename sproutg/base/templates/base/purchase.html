@@ -1,0 +1,71 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+<main class="nk-main">
+  <div class="nk-gap-2"></div>
+  <!-- START: Breadcrumbs -->
+  {% include 'base/breadcrumbs_component.html' %}
+  <!-- END: Breadcrumbs -->
+  <div class="container">
+    
+    <!--START: Purchase History-->
+    <div class="nk-gap"></div>
+    <div class="table-responsive">
+      <table class="nk-table nk-table-sm">
+        <thead class="thead-default">
+          <tr>
+            <th class="nk-product-cart-title">Product</th>
+            <th class="nk-product-cart-total">Developer</th>
+            <th class="nk-product-cart-total">Date</th>
+            <th class="nk-product-cart-total">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for transaction in transactions %}
+          <tr>
+            <td class="nk-product-cart-title">
+              <a href="{% url 'store-product' transaction.game.id %}">{{transaction.game.name}}</a>
+            </td>
+            <td class="nk-product-cart-total">
+              <a href="{% url 'profile-dev' transaction.game.devUser.id %}">{{transaction.game.devUser.developer.developer_name}}</a>
+            </td>
+            <td class="nk-product-cart-total">
+              {{transaction.created|date:"d, F, y"}}
+            </td>
+            <td class="nk-product-cart-total">
+              Rp. {{transaction.game.price}}
+            </td>
+          </tr>
+          {% endfor %}
+          
+          <!-- <tr class="nk-store-cart-totals-subtotal">
+            <td>
+              Subtotal
+            </td>
+            <td>
+              € 52.00
+            </td>
+          </tr>
+          <tr class="nk-store-cart-totals-shipping">
+            <td>
+              Shipping
+            </td>
+            <td>
+              Free Shipping
+            </td>
+          </tr>
+          <tr class="nk-store-cart-totals-total">
+            <td>
+              Total
+            </td>
+            <td>
+              € 52.00
+            </td>
+          </tr> -->
+        </tbody>
+      </table>
+    </div>
+    
+  </div>
+</main>
+{% endblock content %}

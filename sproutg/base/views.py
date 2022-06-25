@@ -333,3 +333,13 @@ def jempol(request, gameid):
     game.save()
     
     return redirect('dashboard-admin')
+
+@login_required(login_url='/login')
+@allowed_users(['customer'])
+def purchase(request):
+    extraContext = pageHeader(request, 'purchase history')
+    transactions = Transaction.objects.filter(customer=request.user)
+    
+    context = { 'transactions': transactions} | extraContext
+    
+    return render(request=request, template_name='base/purchase.html', context=context)
