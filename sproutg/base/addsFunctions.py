@@ -1,4 +1,4 @@
-from .models import Review
+from .models import Game
 from math import floor
     
 def pageHeader(request, page):
@@ -10,4 +10,10 @@ def pageHeader(request, page):
                     'crumbs': crumbs,
                     'page': page}
     
+    if 'developer' in userGroups:
+        pendCount = Game.objects.filter(devUser=user)
+        pendCount = pendCount.filter(verified=False).count()
+        extraContext |= {'pendCount': pendCount}
+    
+    print("\n\n\n\n",extraContext)
     return extraContext

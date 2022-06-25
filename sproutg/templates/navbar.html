@@ -5,7 +5,7 @@
     <div class="container">
       <div class="nk-nav-table">
         <a href="{% url 'store' %}" class="nk-nav-logo">
-        <img src="{% static 'assets/images/logo-1.png' %}" alt="Sprout Gamestore" width="199">
+          <img src="{% static 'assets/images/logo-1.png' %}" alt="Sprout Gamestore" width="199">
         </a>
         <ul class="nk-nav nk-nav-right d-none d-lg-table-cell" data-nav-mobile="#nk-nav-mobile">
           <li>
@@ -31,6 +31,7 @@
               </a>
             </li>
             <li class="nk-drop-item">
+              
               <a href="{% url 'profile' curUser.id %}">
               <img src="{{ curUser.profile.profile_pic.url }}" alt="Profile" class="kuzza">
               {{curUser.username}}
@@ -60,7 +61,7 @@
               </a>
             </li>
             <li class="nk-drop-item">
-              <a href="{% url 'profile' curUser.id %}">
+              <a href="{% url 'profile-dev' curUser.id %}">
               <img src="{{ curUser.profile.profile_pic.url }}" alt="Profile" class="kuzza">
               {{curUser.username}}
               </a>
@@ -71,8 +72,8 @@
                   </a>
                 </li>
                 <li>
-                  <a href="{% url 'wishlist' %}">
-                  Approval Pending({{curUser.customer.wishList.count}})
+                  <a href="{% url 'dashboard-dev' %}">
+                  Approval Pending({{pendCount}})
                   </a>
                 </li>
                 <li>
@@ -107,7 +108,7 @@
   </nav>
   <!-- END: Navbar -->
 </header>
-<!--Star Navbar Mobile-->
+<!--Start Navbar Mobile-->
 <div id="nk-nav-mobile" class="nk-navbar nk-navbar-side nk-navbar-right-side nk-navbar-overlay-content d-lg-none">
   <div class="nano">
     <div class="nano-content">
