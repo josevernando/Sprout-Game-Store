@@ -15,7 +15,7 @@
             </div>
             <div class="col-lg-9">
               <h1 class="text-main-1">{{profile.user.developer.developer_name}}</h1>
-              <h3>{{profile.user.username}}</h3>
+              {% if 'developer' in userGroups %}<h3>{{profile.user.username}}</h3>{% endif %}
 							<p>Joined on, {{profile.user.date_joined}}</p>
 
 							{% if curUser == profile.user %}
