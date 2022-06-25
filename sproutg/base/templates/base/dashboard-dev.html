@@ -54,6 +54,9 @@
           <li class="nav-item">
             <a class="nav-link" href="#tabs-1-3" role="tab" data-toggle="tab">Upload Games</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#tabs-1-4" role="tab" data-toggle="tab">Transactions</a>
+          </li>
         </ul>
         <div class="tab-content">
           <div role="tabpanel" class="tab-pane fade show active" id="tabs-1-1">
@@ -217,6 +220,40 @@
               </div>
 							<input class="nk-btn nk-btn-rounded nk-btn-color-white nk-btn" type="submit" value="Upload Game" >
             </form>
+            <div class="nk-gap"></div>
+          </div>
+          <div role="tabpanel" class="tab-pane fade" id="tabs-1-4">
+            <div class="nk-gap"></div>
+            <div class="table-responsive">
+              <table class="nk-table nk-table-sm">
+                <thead class="thead-default">
+                  <tr>
+                    <th class="nk-product-cart-title">Product</th>
+                    <th class="nk-product-cart-total">Customer</th>
+                    <th class="nk-product-cart-total">Date</th>
+                    <th class="nk-product-cart-total">Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for transaction in transactions %}
+                  <tr>
+                    <td class="nk-product-cart-title">
+                      <a href="{% url 'store-product' transaction.game.id %}">{{transaction.game.name}}</a>
+                    </td>
+                    <td class="nk-product-cart-total">
+                      <a href="{% url 'profile' transaction.customer.id %}">{{transaction.customer.profile.full_name}} ({{transaction.customer.username}})</a>
+                    </td>
+                    <td class="nk-product-cart-total">
+                      {{transaction.created|date:"d, F, y"}}
+                    </td>
+                    <td class="nk-product-cart-total">
+                      Rp. {{transaction.game.price}}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
             <div class="nk-gap"></div>
           </div>
         </div>

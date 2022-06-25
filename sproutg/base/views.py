@@ -260,8 +260,12 @@ def devDashboard(request):
     profile = Profile.objects.get(user=user)
     games = Game.objects.filter(devUser=user)
     pending = games.filter(verified=False)
-    form = GameForm()
+    verified = games.filter(verified=True)
+    transactions = []
+    for game in verified:
+        transactions += Transaction.objects.filter(game=game)
     genres = Genre.objects.all()
+    form = GameForm()
     
     if request.method == 'POST':
         form = GameForm(request.POST, request.FILES)
@@ -281,7 +285,8 @@ def devDashboard(request):
                 'profile': profile, 
                 'games': games,
                 'genres': genres,
-                'pending': pending} | extraContext
+                'pending': pending,
+                'transactions': transactions} | extraContext
     
     return render(request=request, template_name='base/dashboard-dev.html', context=context)
 
