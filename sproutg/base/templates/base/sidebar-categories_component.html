@@ -1,0 +1,11 @@
+{% load static %}
+<div class="nk-widget nk-widget-highlighted">
+  <h4 class="nk-widget-title"><span><span class="text-main-1">Category</span> Menu</span></h4>
+  <div class="nk-widget-content">
+    <ul class="nk-widget-categories">
+    {% for genre in genres %}
+    <li><a href="{% url 'store-search'%}?q={{genre.name}}">{{genre.name}}</a></li>
+    {% endfor %}
+    </ul>
+  </div>
+</div>

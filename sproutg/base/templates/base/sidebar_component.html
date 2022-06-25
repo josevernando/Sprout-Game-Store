@@ -1,12 +1,4 @@
 {% load static %}
-<!--
-  START: Sidebar
-  
-  Additional Classes:
-      .nk-sidebar-left
-      .nk-sidebar-right
-      .nk-sidebar-sticky
-  -->
 <aside class="nk-sidebar nk-sidebar-right nk-sidebar-sticky">
   <div>
     <div class="nk-widget">
@@ -19,16 +11,7 @@
         </form>
       </div>
     </div>
-    <div class="nk-widget nk-widget-highlighted">
-      <h4 class="nk-widget-title"><span><span class="text-main-1">Category</span> Menu</span></h4>
-      <div class="nk-widget-content">
-        <ul class="nk-widget-categories">
-          {% for genre in genres %}
-          <li><a href="{% url 'store-search'%}?q={{genre.name}}">{{genre.name}}</a></li>
-          {% endfor %}
-        </ul>
-      </div>
-    </div>
+    {% include 'base/sidebar-categories_component.html' %}
     <div class="nk-widget nk-widget-highlighted">
       <h4 class="nk-widget-title"><span><span class="text-main-1">Most</span> Popular</span></h4>
       <div class="nk-widget-content">
