@@ -77,10 +77,44 @@
 								<img src="{% static 'assets/images/post-2-fw.jpg' %}" alt="Grab your sword and fight the Horde">
 							</a>
 							<div class="nk-gap-1"></div>
-							<h2 class="nk-post-title h4"><a href="{% url 'store-product' game.id %}">{{game.name}}</a></h2>
+							<div class="row">
+								<div class="col-sm-10">
+									<h2 class="nk-post-title h4 my-2"><a href="{% url 'store-product' game.id %}">{{game.name}}</a></h2>
+								</div>
+								<div class="col-sm-2">
+									<a href="#" class="nk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-hover-color-main-1 float-sm-right ">Download</a>
+								</div>
+							</div>
+							<strong class="text-white">Release Date: {{game.created|date:"d, F, Y"}}</strong>
+							<div class="nk-gap"></div>
 							<div class="nk-post-text">
 								<p>{{game.description}}</p>
 							</div>
+							<div class="nk-gap-2"></div>
+							<div class="nk-product-info-row row vertical-gap">
+								<div class="col-md-6">
+									<div class="nk-product-pegi d-sm-flex">
+										<div class="nk-gap"></div>
+										<img src="{% static 'assets/images/pegi-icon.jpg' %}" height="100px" alt="">
+										<div class="mx-2"></div>
+										<div class="nk-product-pegi-cont">
+											<strong class="text-white">Pegi Rating:</strong>
+											<div class="nk-gap"></div>
+											Suitable for people aged 12 and over.
+										</div>
+										<div class="nk-gap"></div>
+									</div>
+								</div>
+								<div class="col-md-6">
+									
+									<strong class="text-white">Genre:</strong>
+									<div class="nk-gap"></div>
+									<a href="#">{{game.genres.first}}</a>{% for genre in game.genres.all|slice:"1:" %}, <a href="#">{{genre.name}}</a>{% endfor %}
+									<div class="nk-gap"></div>
+								</div>
+							</div>
+							<div class="nk-gap-1"></div>
+							
 						</div>
           </div>
           {% endfor %}
