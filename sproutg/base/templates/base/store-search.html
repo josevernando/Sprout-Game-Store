@@ -40,21 +40,31 @@
     <div class="row vertical-gap">
       {% if games %}
         {% for game in games %}
-        <div class="col-lg-6">
+        <div class="col-sm-6">
           <div class="nk-product-cat-2">
-            <a class="nk-product-image" href="store-product.html">
-            <img src="{% static 'assets/images/product-1-md.jpg' %}" alt="So saying he unbuckled">
+            <a class="nk-product-image" href="{% url 'store-product' game.id %}">
+            <img src="{% static 'assets/images/product-1-md.jpg' %}" alt="{{game.name}}">
             </a>
             <div class="nk-product-cont">
               <h3 class="nk-product-title h5"><a href="{% url 'store-product' game.id %}">{{ game.name }}</a></h3>
               <div class="nk-gap-1"></div>
               {% include 'base/star-rating_component.html' %}
               <div class="nk-gap-1"></div>
-              {{ game.description|slice:":110" }} . . .
+              {{ game.description|slice:":140" }} . . .
               <div class="nk-gap-2"></div>
               <div class="nk-product-price">Rp. {{ game.price }}</div>
               <div class="nk-gap-1"></div>
-              <a href="{% url 'addToList' 'cart' game.id %}" class="nk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-hover-color-main-1">Add to Cart</a>
+              <div class="d-flex">
+                {% if game in curUser.customer.myGames.all %}
+                <a href="{% url 'mygames' %}" class="nk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-hover-color-main-1">Open My Games</a>
+                {% else %}
+                <a href="{% url 'addToList' 'wishlist' game.id %}" class="nk-btn nk-btn-sm nk-btn-rounded nk-btn-color-white nk-btn-hover-color-main-1 ">
+                  <img src="{% static 'assets/images/heart-icon.png'%}" class="pict-icon" alt="">
+                </a>
+                <span class="mx-1"></span>
+                <a href="{% url 'addToList' 'cart' game.id %}" class="nk-btn nk-btn-rounded nk-btn-color-dark-3 nk-btn-hover-color-main-1">Add to Cart</a>
+                {% endif %}
+              </div>
             </div>
           </div>
         </div>
