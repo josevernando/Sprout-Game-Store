@@ -1,3 +1,4 @@
+from turtle import title
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
@@ -5,7 +6,7 @@ from django.contrib import messages
 from django.db.models import Q
 
 from django.shortcuts import render, redirect
-from .models import Developer, Genre, Review, Game, Customer, Profile
+from .models import Developer, Genre, Review, Game, Customer, Profile, Transaction
 from .forms import SignUpForm, ProfileForm, ReviewForm, GameForm
 from .decorators import unauthenticated_user, allowed_users
 from .addsFunctions import pageHeader
@@ -256,7 +257,7 @@ def devDashboard(request):
     extraContext = pageHeader(request, 'dashboard')
     user = extraContext['curUser']
     profile = Profile.objects.get(user=user)
-    games = Game.objects.filter (devUser=user)
+    games = Game.objects.filter(devUser=user)
     pending = games.filter(verified=False)
     form = GameForm()
     genres = Genre.objects.all()
@@ -302,10 +303,15 @@ def about(request):
 @login_required(login_url='/login')
 @allowed_users(['customer'])
 def buyGames(request):
-    userCustomer = Customer.objects.get(user=request.user)
+    user = request.user
+    userCustomer = Customer.objects.get(user=user)
     cart = userCustomer.cart.all()
     userCustomer.myGames.add(*cart)
     userCustomer.cart.clear()
+    userCustomer.wishList.remove(*cart)
+    
+    for game in cart:
+        Transaction.objects.create(customer=user, game=game, name=f"{game.name} purchase by {user.username}.")
     
     return redirect('mygames')
 
