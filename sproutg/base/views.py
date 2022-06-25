@@ -196,10 +196,11 @@ def storeWishlist(request):
 
 def mygames(request):
     extraContext = pageHeader(request, 'my games')
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
     userCustomer = Customer.objects.get(user=request.user)
-    games = userCustomer.myGames.all()
+    games = userCustomer.myGames.filter(Q(name__icontains=q))
     
-    context = {'games': games} | extraContext
+    context = {'games': games, 'q': q} | extraContext
     
     return render(request=request, template_name='base/mygames.html', context=context)
 
