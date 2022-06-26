@@ -64,6 +64,10 @@ class Game(models.Model):
         
         return fullStars, halfStar
     
+    def sales(self):
+        salesCount = Transaction.objects.filter(game=self).count()
+        return salesCount
+    
 class Customer(models.Model):
     cart = models.ManyToManyField(Game, related_name='cart', blank=True)
     myGames = models.ManyToManyField(Game, related_name='myGames', blank=True)

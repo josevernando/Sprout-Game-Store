@@ -1,4 +1,5 @@
-from .models import Game
+from audioop import reverse
+from .models import Game, Transaction
 from math import floor
     
 def pageHeader(request, page):
@@ -17,3 +18,10 @@ def pageHeader(request, page):
     
     print("\n\n\n\n",extraContext)
     return extraContext
+
+def topSold(qty):    
+    games = Game.objects.filter(verified=True)
+    games = list(games)
+    games.sort(reverse=True, key=lambda x: x.sales())
+    
+    return games[:qty]

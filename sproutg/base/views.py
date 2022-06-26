@@ -9,7 +9,7 @@ from django.shortcuts import render, redirect
 from .models import Developer, Genre, Review, Game, Customer, Profile, Transaction
 from .forms import SignUpForm, ProfileForm, ReviewForm, GameForm
 from .decorators import unauthenticated_user, allowed_users
-from .addsFunctions import pageHeader
+from .addsFunctions import pageHeader, topSold
 
 # Create your views here.
 @unauthenticated_user
@@ -80,14 +80,15 @@ def registerDev(request):
 
 def store(request):
     extraContext = pageHeader(request, 'home')
-    q = request.GET.get('q') if request.GET.get('q') != None else ''
-    # games = Game.objects.filter(Q(name__icontains=q)|Q(genres__name__icontains=q))
     games = Game.objects.filter(verified=True)
     genres = Genre.objects.all()
+    highlights = topSold(4)
+    popular = topSold(6)
     
     context = {'games': games, 
                'genres': genres, 
-               'highlights': games[:10]} | extraContext
+               'highlights': highlights,
+               'popular': popular} | extraContext
     
     return render(request=request, template_name='base/store.html', context=context)
 
@@ -149,10 +150,11 @@ def storeSearch(request):
     searchGames = Game.objects.filter(Q(name__icontains=q)|Q(genres__name__icontains=q))
     games = searchGames.filter(verified=True)
     genres = Genre.objects.all()
+    popular = topSold(6)
     
     context = {'games': games, 
                'genres': genres, 
-               'highlights': games[:10],
+               'popular': popular,
                'searchQuerry': q} | extraContext
     
     return render(request=request, template_name='base/store-search.html', context=context)
@@ -186,11 +188,12 @@ def removeFromList(request, gameList, gameid):
 @login_required(login_url='/login')
 @allowed_users(['customer'])
 def storeWishlist(request):
-    extraContext = pageHeader(request, 'cart')
+    extraContext = pageHeader(request, 'wish list')
     customer = Customer.objects.get(user=request.user)
     wishlist = customer.wishList.all()
+    popular = topSold(6)
     
-    context = {'wishlist': wishlist} | extraContext
+    context = {'wishlist': wishlist, 'popular': popular} | extraContext
     
     return render(request=request, template_name='base/wishlist.html', context=context)
 
@@ -301,8 +304,9 @@ def deleteGame(request, gameid):
 def about(request):
     extraContext = pageHeader(request, 'developer profile')
     genres = Genre.objects.all()
+    popular = topSold(4)
     
-    context = {'genres': genres} | extraContext
+    context = {'genres': genres, 'popular': popular} | extraContext
     
     return render(request=request, template_name='base/about.html', context=context)
 
