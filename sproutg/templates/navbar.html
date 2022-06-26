@@ -88,6 +88,25 @@
                 </li>
               </ul>
             </li>
+            {% else %}
+            <li>
+              <a href="{% url 'dashboard-admin' %}">
+              Dashboard
+              </a>
+            </li>
+            <li class="nk-drop-item">
+              <a href="">
+                {{curUser.username}}
+              </a>
+              </a>
+              <ul class="dropdown">
+                <li>
+                  <a href="{% url 'logout' %}">
+                  Logout
+                  </a>
+                </li>
+              </ul>
+            </li>
             {% endif %}
           {% else %}
           <li>

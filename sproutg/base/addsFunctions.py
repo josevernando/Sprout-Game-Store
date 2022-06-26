@@ -1,6 +1,4 @@
-from audioop import reverse
-from .models import Game, Transaction
-from math import floor
+from .models import Game
     
 def pageHeader(request, page):
     user = request.user 

@@ -96,6 +96,7 @@ def storeProduct(request, pk):
     extraContext = pageHeader(request, 'product')
     form = ReviewForm()
     game = Game.objects.get(id=pk)
+    popular = topSold(6)
     
     if request.method == 'POST':
         form = ReviewForm(request.POST)
@@ -110,17 +111,21 @@ def storeProduct(request, pk):
     reviews = Review.objects.filter(game=game)
     highlights = Game.objects.all()[:3]
 
-    try:
-        curReview = Review.objects.get(game=game, profile=request.user.profile)
-    except Review.DoesNotExist:
+    if request.user.is_authenticated:
+        try:
+            curReview = Review.objects.get(game=game, profile=request.user.profile)
+        except Review.DoesNotExist:
+            curReview = None
+    else:
         curReview = None
-        
+    
     context = {'game': game, 
                'genres': genres, 
                'highlights': highlights, 
                'reviews': reviews, 
                'form': form,
-               'curReview': curReview} | extraContext
+               'curReview': curReview,
+               'popular': popular} | extraContext
     
     return render(request=request, template_name='base/store-product.html', context=context)
 
