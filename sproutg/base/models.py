@@ -18,6 +18,9 @@ class Profile(models.Model):
 class Genre(models.Model):
     name = models.CharField(max_length=200)
     
+    class Meta:
+        ordering = ['name']
+    
     def __str__(self):
         return self.name
 
@@ -63,6 +66,10 @@ class Game(models.Model):
         fullStars = range(fullStars)
         
         return fullStars, halfStar
+    
+    def sales(self):
+        salesCount = Transaction.objects.filter(game=self).count()
+        return salesCount
     
 class Customer(models.Model):
     cart = models.ManyToManyField(Game, related_name='cart', blank=True)

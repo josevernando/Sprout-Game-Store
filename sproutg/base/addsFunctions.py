@@ -1,5 +1,4 @@
 from .models import Game
-from math import floor
     
 def pageHeader(request, page):
     user = request.user 
@@ -17,3 +16,10 @@ def pageHeader(request, page):
     
     print("\n\n\n\n",extraContext)
     return extraContext
+
+def topSold(qty):    
+    games = Game.objects.filter(verified=True)
+    games = list(games)
+    games.sort(reverse=True, key=lambda x: x.sales())
+    
+    return games[:qty]
